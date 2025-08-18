@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Reports</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body { margin:0; font-family: Arial, sans-serif; background:#0b0f19; color:#e5e7eb; }
+  header { background:#111827; padding:16px; display:flex; justify-content:space-between; }
+  header a { color:#a5b4fc; text-decoration:none; }
+  h1 { margin:0; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px; padding:20px; }
+  .card { background:#1f2937; padding:16px; border-radius:10px; border:1px solid #374151; }
+  .card h2 { margin:0 0 10px; font-size:18px; }
+  .card p { font-size:14px; color:#9ca3af; }
+  .card a { display:inline-block; margin-top:10px; padding:6px 12px; background:#2563eb; color:white; border-radius:6px; text-decoration:none; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Reports</h1>
+  <a href="index.html">← Home</a>
+</header>
+
+<div class="grid" id="reports"></div>
+
+<script>
+fetch("reports/reports.json")
+  .then(r => r.json())
+  .then(data => {
+    let container = document.getElementById("reports");
+    data.forEach(report => {
+      let div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <h2>${report.title}</h2>
+        <p><em>${report.date}</em></p>
+        <p>${report.summary}</p>
+        <a href="reports/viewer.html?title=${encodeURIComponent(report.title)}&pdf=reports/${report.pdf}">Read Report</a>
+      `;
+      container.appendChild(div);
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,46 +1,163 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Reports</title>
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Reports – Syed Hussain Haider</title>
+
 <style>
-  body { margin:0; font-family: Arial, sans-serif; background:#0b0f19; color:#e5e7eb; }
-  header { background:#111827; padding:16px; display:flex; justify-content:space-between; }
-  header a { color:#a5b4fc; text-decoration:none; }
-  h1 { margin:0; }
-  .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px; padding:20px; }
-  .card { background:#1f2937; padding:16px; border-radius:10px; border:1px solid #374151; }
-  .card h2 { margin:0 0 10px; font-size:18px; }
-  .card p { font-size:14px; color:#9ca3af; }
-  .card a { display:inline-block; margin-top:10px; padding:6px 12px; background:#2563eb; color:white; border-radius:6px; text-decoration:none; }
+  :root{
+    --bg:#0b0f19; --panel:#0f172a; --border:#1f2937; --text:#e5e7eb;
+    --muted:#94a3b8; --link:#a5b4fc; --btn:#334155; --btnHover:#111827;
+    --maxw:1100px
+  }
+  @media (prefers-color-scheme: light){
+    :root{
+      --bg:#ffffff; --panel:#f8fafc; --border:#e5e7eb; --text:#0f172a;
+      --muted:#475569; --link:#4f46e5; --btn:#cbd5e1; --btnHover:#e2e8f0
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
+  a{color:var(--link);text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:24px 16px}
+
+  /* Navbar (match journal.html) */
+  .nav{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border)}
+  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:var(--maxw);margin:0 auto;padding:12px 16px}
+  .brand{font-weight:700}
+  .links{display:flex;gap:14px;flex-wrap:wrap}
+  .links a{padding:6px 10px;border:1px solid transparent;border-radius:10px}
+  .links a:hover{border-color:var(--border)}
+
+  /* Page header */
+  .page-head{padding:18px 0 6px}
+  h1{margin:0 0 6px 0;font-size:28px}
+  .sub{color:var(--muted);margin:0 0 16px 0}
+
+  /* Controls */
+  .controls{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 18px}
+  .controls input,.controls select{
+    background:transparent;border:1px solid var(--border);color:var(--text);
+    padding:10px 12px;border-radius:10px;min-width:220px;outline:none
+  }
+
+  /* Cards */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}
+  .card h3{margin:0;font-size:18px}
+  .muted{color:var(--muted);font-size:14px;margin:0}
+  .btn{align-self:flex-start;display:inline-block;padding:10px 14px;border-radius:10px;border:1px solid var(--btn);background:transparent;color:var(--text)}
+  .btn:hover{background:var(--btnHover)}
+  .empty{padding:24px;border:1px dashed var(--border);border-radius:12px;text-align:center;color:var(--muted)}
 </style>
 </head>
 <body>
-<header>
-  <h1>Reports</h1>
-  <a href="index.html">← Home</a>
-</header>
 
-<div class="grid" id="reports"></div>
+<!-- NAVBAR -->
+<nav class="nav">
+  <div class="row">
+    <div class="brand">Syed Hussain Haider</div>
+    <div class="links">
+      <a href="index.html">Home</a>
+      <a href="reports.html"><strong>Reports</strong></a>
+      <a href="journal.html">Journal</a>
+      <a href="cv.html">CV</a>
+    </div>
+  </div>
+</nav>
 
+<main class="wrap">
+  <!-- PAGE HEADER -->
+  <header class="page-head">
+    <h1>Reports</h1>
+    <p class="sub">Deeper dives and write-ups. Use search or sort to find what you need.</p>
+  </header>
+
+  <!-- FILTERS -->
+  <div class="controls">
+    <input id="search" type="search" placeholder="Search title or summary…" />
+    <select id="sort">
+      <option value="newest">Newest first</option>
+      <option value="oldest">Oldest first</option>
+    </select>
+  </div>
+
+  <!-- GRID -->
+  <section class="cards" id="reports-grid">
+    <div class="empty">Loading reports…</div>
+  </section>
+</main>
+
+<!-- DATA LOADER -->
 <script>
-fetch("reports/reports.json")
-  .then(r => r.json())
-  .then(data => {
-    let container = document.getElementById("reports");
-    data.forEach(report => {
-      let div = document.createElement("div");
-      div.className = "card";
-      div.innerHTML = `
-        <h2>${report.title}</h2>
-        <p><em>${report.date}</em></p>
-        <p>${report.summary}</p>
-        <a href="reports/viewer.html?title=${encodeURIComponent(report.title)}&pdf=reports/${report.pdf}">Read Report</a>
+(async function(){
+  const GRID  = document.getElementById('reports-grid');
+  const SRC   = 'reports/reports.json';
+  let entries = [];
+
+  async function fetchEntries(){
+    const res = await fetch(SRC, { cache: 'no-store' });
+    if (!res.ok) throw new Error('Failed to fetch reports.json');
+    return res.json();
+  }
+
+  function render(list){
+    GRID.innerHTML = '';
+    if (!list.length){
+      GRID.innerHTML = '<div class="empty">No reports yet. Add PDFs in <code>/reports/</code> and an item in <code>reports/reports.json</code>.</div>';
+      return;
+    }
+    for (const it of list){
+      const card = document.createElement('article');
+      card.className = 'card';
+      const dateStr = new Date(it.date).toLocaleDateString();
+      card.innerHTML = `
+        <h3>${it.title}</h3>
+        <p class="muted">${dateStr}</p>
+        <p>${it.summary}</p>
+        <a class="btn" href="reports/viewer.html?pdf=${encodeURIComponent('reports/' + it.pdf)}&title=${encodeURIComponent(it.title)}">Read Report</a>
       `;
-      container.appendChild(div);
-    });
-  });
+      GRID.appendChild(card);
+    }
+  }
+
+  function applyFilters(){
+    const q = document.getElementById('search').value.toLowerCase().trim();
+    const mode = document.getElementById('sort').value;
+    let list = [...entries];
+
+    list.sort((a,b) => new Date(a.date) - new Date(b.date));
+    if (mode === 'newest') list.reverse();
+
+    if (q){
+      list = list.filter(it =>
+        (it.title || '').toLowerCase().includes(q) ||
+        (it.summary || '').toLowerCase().includes(q)
+      );
+    }
+    render(list);
+  }
+
+  try {
+    entries = await fetchEntries();
+    entries = entries.map(e => ({
+      title: e.title || 'Untitled',
+      date:  e.date  || '1970-01-01',
+      summary: e.summary || '',
+      pdf:   e.pdf   || ''
+    }));
+    entries.sort((a,b) => new Date(b.date) - new Date(a.date));
+    render(entries);
+  } catch (err){
+    console.error(err);
+    GRID.innerHTML = '<div class="empty">Could not load <code>reports/reports.json</code>. Check the path and JSON syntax.</div>';
+  }
+
+  document.getElementById('search').addEventListener('input', applyFilters);
+  document.getElementById('sort').addEventListener('change', applyFilters);
+})();
 </script>
+
 </body>
 </html>

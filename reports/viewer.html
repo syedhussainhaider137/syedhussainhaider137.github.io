@@ -20,8 +20,19 @@
 <iframe id="pdfFrame"></iframe>
 <script>
   const p = new URLSearchParams(location.search);
-  document.getElementById('title').textContent = p.get('title') || 'Report';
-  document.getElementById('pdfFrame').src = p.get('pdf') || '';
+  const title = p.get('title') || 'Report';
+  let pdf = p.get('pdf') || '';
+
+  // If someone passed "reports/filename.pdf", strip the extra prefix
+  pdf = pdf.replace(/^reports\//, '');
+
+  // Build a path relative to this viewer (which lives in /reports/)
+  // So a bare filename "x.pdf" becomes "./x.pdf"
+  const src = pdf.startsWith('http') || pdf.startsWith('/') ? pdf : `./${pdf}`;
+
+  document.getElementById('title').textContent = title;
+  document.getElementById('pdfFrame').src = src;
 </script>
+
 </body>
 </html>

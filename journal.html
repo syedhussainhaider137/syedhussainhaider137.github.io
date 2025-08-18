@@ -5,96 +5,197 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Journal – Syed Hussain Haider</title>
 
-<!-- Minimal, clean styling (works on light/dark backgrounds) -->
 <style>
-  :root{
-    --bg:#0b0f19; --panel:#0f172a; --border:#1f2937; --text:#e5e7eb;
-    --muted:#94a3b8; --link:#a5b4fc; --btn:#334155; --btnHover:#111827;
-    --maxw:1100px
-  }
-  @media (prefers-color-scheme: light){
-    :root{
-      --bg:#ffffff; --panel:#f8fafc; --border:#e5e7eb; --text:#0f172a;
-      --muted:#475569; --link:#4f46e5; --btn:#cbd5e1; --btnHover:#e2e8f0
-    }
-  }
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;line-height:1.55}
-  a{color:var(--link);text-decoration:none}
-  .wrap{max-width:var(--maxw);margin:0 auto;padding:24px 16px}
+/* === Same design system as index.html === */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #1f2937;
+  --primary-color: #6366f1;
+  --card-bg: #f9fafb;
+  --card-shadow: rgba(0,0,0,0.05);
+}
+body.dark {
+  --bg-color: #0f172a;
+  --text-color: #f1f5f9;
+  --primary-color: #818cf8;
+  --card-bg: #1e293b;
+  --card-shadow: rgba(255,255,255,0.1);
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
 
-  /* Navbar */
-  .nav{position:sticky;top:0;z-index:10;background:var(--panel);border-bottom:1px solid var(--border)}
-  .nav .row{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:var(--maxw);margin:0 auto;padding:12px 16px}
-  .brand{font-weight:700}
-  .links{display:flex;gap:14px;flex-wrap:wrap}
-  .links a{padding:6px 10px;border:1px solid transparent;border-radius:10px}
-  .links a:hover{border-color:var(--border)}
+/* Navbar (copied from index) */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: var(--card-bg);
+  box-shadow: 0 2px 4px var(--card-shadow);
+}
+.navbar .logo {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+.navbar .nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+  margin: 0;
+}
+.navbar .nav-links a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.navbar .nav-links a:hover {
+  color: var(--primary-color);
+}
+.toggle-theme {
+  background: var(--primary-color);
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
-  /* Page header */
-  .page-head{padding:18px 0 6px}
-  h1{margin:0 0 6px 0;font-size:28px}
-  .sub{color:var(--muted);margin:0 0 16px 0}
+/* Page header (to mirror homepage spacing) */
+.hero {
+  text-align: left;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1rem 1rem;
+}
+.hero h1 {
+  font-size: 2rem;
+  margin: 0 0 .35rem 0;
+}
+.hero p {
+  margin: 0;
+  opacity: .9;
+}
 
-  /* Controls */
-  .controls{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 18px}
-  .controls input,.controls select{
-    background:transparent;border:1px solid var(--border);color:var(--text);
-    padding:10px 12px;border-radius:10px;min-width:220px;outline:none
-  }
+/* Controls (search/sort) */
+.controls {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 1rem 1rem;
+}
+.controls input,
+.controls select {
+  background: var(--card-bg);
+  border: 1px solid rgba(0,0,0,0.1);
+  color: var(--text-color);
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  min-width: 220px;
+  outline: none;
+}
 
-  /* Cards grid */
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
-  .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:8px}
-  .card h3{margin:0;font-size:18px}
-  .muted{color:var(--muted);font-size:14px;margin:0}
-  .btn{align-self:flex-start;display:inline-block;padding:10px 14px;border-radius:10px;border:1px solid var(--btn);background:transparent;color:var(--text)}
-  .btn:hover{background:var(--btnHover)}
-  .empty{padding:24px;border:1px dashed var(--border);border-radius:12px;text-align:center;color:var(--muted)}
+/* Card grid (use homepage styles) */
+.sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 1.2rem;
+  box-shadow: 0 2px 4px var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px var(--card-shadow);
+}
+.card h3 {
+  margin-top: 0;
+  margin-bottom: 0.4rem;
+  color: var(--primary-color);
+}
+.card p { margin: 0 0 .4rem 0; line-height: 1.45; }
+.card .muted { opacity: .8; font-size: .95rem; }
+.btn {
+  display: inline-block;
+  margin-top: .4rem;
+  text-decoration: none;
+  color: var(--primary-color);
+}
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  opacity: .8;
+}
 </style>
+
+<script>
+/* === Same theme toggle behaviour as index.html === */
+function toggleTheme() {
+  document.body.classList.toggle('dark');
+  localStorage.setItem('theme',
+    document.body.classList.contains('dark') ? 'dark' : 'light');
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'dark') document.body.classList.add('dark');
+});
+</script>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="nav">
-  <div class="row">
-    <div class="brand">Syed Hussain Haider</div>
-    <div class="links">
-      <a href="index.html">Home</a>
-      <a href="reports.html">Reports</a>
-      <a href="journal.html"><strong>Journal</strong></a>
-      <a href="cv.html">CV</a>
-    </div>
-  </div>
+<!-- Navbar identical to homepage -->
+<nav class="navbar">
+  <div class="logo">Syed Hussain Haider</div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="reports.html">Reports</a></li>
+    <li><a href="journal.html"><strong>Journal</strong></a></li>
+    <li><a href="cv.html">CV</a></li>
+  </ul>
+  <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
 </nav>
 
-<main class="wrap">
-  <!-- PAGE HEADER -->
-  <header class="page-head">
-    <h1>Journal</h1>
-    <p class="sub">Short topics every other day. Click a card to open the full PDF.</p>
-  </header>
+<!-- Page header -->
+<header class="hero">
+  <h1>Journal</h1>
+  <p>Short topics every other day. Click a card to open the full PDF.</p>
+</header>
 
-  <!-- FILTERS (optional quality-of-life) -->
-  <div class="controls">
-    <input id="search" type="search" placeholder="Search title or summary…" />
-    <select id="sort">
-      <option value="newest">Newest first</option>
-      <option value="oldest">Oldest first</option>
-    </select>
-  </div>
+<!-- Filters -->
+<div class="controls">
+  <input id="search" type="search" placeholder="Search title or summary…">
+  <select id="sort">
+    <option value="newest">Newest first</option>
+    <option value="oldest">Oldest first</option>
+  </select>
+</div>
 
-  <!-- GRID CONTAINER (auto-populated by JS) -->
-  <section class="cards" id="journal-grid">
-    <div class="empty">Loading journals…</div>
-  </section>
-</main>
+<!-- Grid container (auto-populated) -->
+<section class="sections" id="journal-grid">
+  <div class="empty">Loading journals…</div>
+</section>
 
-<!-- DATA LOADER -->
+<!-- Data loader (unchanged logic) -->
 <script>
 (async function(){
   const GRID  = document.getElementById('journal-grid');
-  const SRC   = 'journals/journals.json'; // data file in /journals/
+  const SRC   = 'journals/journals.json';
   let entries = [];
 
   async function fetchEntries(){
@@ -117,7 +218,7 @@
         <h3>${it.title}</h3>
         <p class="muted">${dateStr}</p>
         <p>${it.summary}</p>
-        <a class="btn" href="journals/viewer.html?pdf=${encodeURIComponent(it.pdf)}&title=${encodeURIComponent(it.title)}">Read PDF</a>
+        <a class="btn" href="journals/viewer.html?pdf=${encodeURIComponent(it.pdf)}&title=${encodeURIComponent(it.title)}">Read PDF →</a>
       `;
       GRID.appendChild(card);
     }
@@ -128,11 +229,9 @@
     const mode = document.getElementById('sort').value;
     let list = [...entries];
 
-    // sort
     list.sort((a,b) => new Date(a.date) - new Date(b.date));
     if (mode === 'newest') list.reverse();
 
-    // filter
     if (q){
       list = list.filter(it =>
         (it.title || '').toLowerCase().includes(q) ||
@@ -144,14 +243,12 @@
 
   try {
     entries = await fetchEntries();
-    // ensure required fields exist
     entries = entries.map(e => ({
       title: e.title || 'Untitled',
       date:  e.date  || '1970-01-01',
       summary: e.summary || '',
       pdf:   e.pdf   || ''
     }));
-    // default: newest first
     entries.sort((a,b) => new Date(b.date) - new Date(a.date));
     render(entries);
   } catch (err){

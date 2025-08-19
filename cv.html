@@ -63,8 +63,8 @@
     border-radius: 50%;
     object-fit: cover;
     object-position: center;
-    border: 1.5px solid var(--border);
-    background: var(--bg-color);
+    border: 1.5px solid var(--border);           /* subtle ring that adapts to theme */
+    background: var(--bg-color);                 /* avoids dark fringing on dark mode */
   }
 
   .nav-links { list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0; }
@@ -91,48 +91,44 @@
   .hero h1 { margin: 0 0 .35rem 0; font-size: clamp(1.4rem, 2.2vw + 1rem, 2rem); }
   .hero p { margin: 0; opacity: .9; font-size: clamp(0.95rem, 0.4vw + 0.9rem, 1.05rem); }
 
-  /* ===== CV viewer styles (added) ===== */
-  .viewer-card {
+  /* Controls (Search + Sort) */
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .75rem;
+    padding-bottom: 1rem;
+  }
+  .controls input, .controls select {
+    width: auto;
+    min-width: 220px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--text-color);
+    padding: 0.6rem 0.8rem;
+    border-radius: 8px;
+  }
+
+  /* Card grid */
+  .sections { display: grid; grid-template-columns: 1fr; gap: 1.25rem; padding: 1rem 0 2.5rem; }
+  @media (min-width: 600px) { .sections { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 960px) { .sections { grid-template-columns: repeat(3, 1fr); } }
+
+  .card {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 1rem;
+    padding: 1.2rem;
     box-shadow: 0 2px 4px var(--card-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-  .pdf-viewer {
-    width: 100%;
-    height: 80vh;     /* nice big view on desktop */
-    border: none;
-    display: block;
-    margin-bottom: 1rem;
-    background: #fff;
-  }
-  .actions {
-    display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-  .actions .btn {
-    padding: 0.6rem 1rem;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--bg-color);
-    color: var(--text-color);
-    text-decoration: none;
-    cursor: pointer;
-  }
-  .actions .btn.primary {
-    background: var(--primary-color);
-    color: #fff;
-    border: none;
-  }
-  .actions .btn:hover { opacity: 0.92; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 6px 14px var(--card-shadow); }
+  .card h3 { margin: 0 0 .4rem; color: var(--primary-color); font-size: clamp(1.05rem, .6vw + 1rem, 1.2rem); }
+  .card p { margin: 0 0 .5rem; line-height: 1.45; }
+  .card .muted { opacity: .8; font-size: .95rem; }
+  .btn { display: inline-block; margin-top: .4rem; }
+  .empty { grid-column: 1 / -1; text-align: center; opacity: .8; }
 
-  @media (max-width: 600px) {
-    .pdf-viewer { height: 65vh; } /* less tall on phones */
-  }
-
-  /* Footer */
   footer { text-align: center; padding: 2rem 1rem; font-size: .95rem; opacity: .9; }
 
   /* Reduced motion */
@@ -159,9 +155,9 @@
   <nav class="navbar">
     <div class="container nav-inner">
       <div class="logo">
-        <img src="IMG_2932.JPG" alt="Profile picture of Syed Hussain Haider" class="profile-pic">
-        Syed Hussain Haider
-      </div>
+  <img src="IMG_2932.JPG" alt="Profile picture of Syed Hussain Haider" class="profile-pic">
+  Syed Hussain Haider
+</div>
       <ul class="nav-links" id="primary-nav" aria-label="Primary Navigation">
         <li><a href="index.html">Home</a></li>
         <li><a href="projects.html">Projects</a></li>
@@ -185,7 +181,7 @@
 
   <main class="container">
     <section class="viewer-card">
-      <!-- Use <object> for cross-browser behavior with graceful fallback -->
+      <!-- Use <object> for better cross-browser behavior with a graceful fallback -->
       <object data="CV_3-5.pdf" type="application/pdf" class="pdf-viewer" aria-label="Embedded CV PDF">
         <p>Your browser can’t display embedded PDFs. You can 
           <a href="CV_3-5.pdf" class="btn primary" target="_blank" rel="noopener">open the CV</a> 

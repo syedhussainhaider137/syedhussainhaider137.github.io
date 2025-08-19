@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Report Viewer</title>
 <style>
-  /* Minimal mobile fix while keeping your original look */
   :root { --bg:#0b0f19; --panel:#111827; --border:#1f2937; --text:#e5e7eb; --accent:#a5b4fc; --header-h:58px; }
   html { -webkit-text-size-adjust:100%; }
   body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
@@ -16,19 +15,21 @@
     position:sticky; top:0; z-index:10;
     padding:max(12px, env(safe-area-inset-top)) 16px 12px 16px;
     background:var(--panel); border-bottom:1px solid var(--border);
-    display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    display:flex; gap:.75rem; align-items:center; flex-wrap:wrap;
   }
-  header a.back{ white-space:nowrap; }
-  h1{ margin:0; font-size:16px; font-weight:600; overflow:hidden; text-overflow:ellipsis; }
+  .back{ white-space:nowrap; }
+  h1{ margin:0; font-size:16px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .actions{ display:flex; gap:.5rem; margin-left:auto; }
+  .btn{ display:inline-block; border:1px solid var(--border); background:#0f172a; color:var(--text); padding:.4rem .6rem; border-radius:8px; font-size:.9rem; }
 
-  /* Use dynamic viewport height for mobile browsers */
-  .frame-wrap{ height:calc(100dvh - var(--header-h)); }
-  iframe{ width:100%; height:100%; border:0; background:var(--panel); display:block; }
+  main{ height:calc(100dvh - var(--header-h)); }
+  .pdf{ width:100%; height:100%; border:0; display:block; background:var(--panel); }
+  .fallback{ padding:1rem; text-align:center; }
 
-  /* Make tap targets comfy on small screens */
   @media (max-width:480px){
-    header{ gap:10px; }
+    header{ gap:.6rem; }
     h1{ font-size:15px; }
+    .btn{ padding:.5rem .6rem; }
   }
 </style>
 </head>
@@ -36,39 +37,69 @@
 <header id="hdr">
   <a class="back" href="../reports.html">← Back to Reports</a>
   <h1 id="title"></h1>
+  <div class="actions">
+    <a id="openBtn" class="btn" target="_blank" rel="noopener">Open</a>
+    <a id="dlBtn" class="btn" download>Download</a>
+  </div>
 </header>
-<div class="frame-wrap">
-  <iframe id="pdfFrame" title="Report PDF"></iframe>
-</div>
+
+<main id="viewerRoot">
+  <div class="fallback" id="fallback" hidden>
+    Your browser can't display embedded PDFs. You can
+    <a id="openAlt">open the file</a> or <a id="dlAlt" download>download it</a>.
+  </div>
+</main>
+
 <script>
-  (function(){
-    const p = new URLSearchParams(location.search);
-    const title = p.get('title') || 'Report';
-    let pdf = p.get('pdf') || '';
+(function(){
+  const p = new URLSearchParams(location.search);
+  const title = p.get('title') || 'Report';
+  let pdf = p.get('pdf') || '';
 
-    // If someone passed "reports/filename.pdf", strip the extra prefix
-    pdf = pdf.replace(/^reports\//, '');
+  // Normalise: allow ?pdf=reports/file.pdf or ?pdf=file.pdf
+  pdf = pdf.replace(/^reports\//, '');
+  const src = (/^https?:\/\//.test(pdf) || pdf.startsWith('/')) ? pdf : (pdf ? `./${pdf}` : '');
 
-    // Build a path relative to this viewer (which lives in /reports/)
-    // So a bare filename "x.pdf" becomes "./x.pdf"
-    const src = (/^https?:\/\//.test(pdf) || pdf.startsWith('/')) ? pdf : (pdf ? `./${pdf}` : '');
+  // UI
+  document.getElementById('title').textContent = title;
+  const setHref = (id, href) => { const el = document.getElementById(id); if (el && href) el.href = href; };
+  setHref('openBtn', src); setHref('dlBtn', src); setHref('openAlt', src); setHref('dlAlt', src);
 
-    // Populate UI
-    document.getElementById('title').textContent = title;
-    if (src) document.getElementById('pdfFrame').src = src;
+  // Dynamic header height (handles wrapping/orientation)
+  function setHeaderHeight(){
+    const h = (document.getElementById('hdr').offsetHeight || 58);
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+  }
+  setHeaderHeight();
+  addEventListener('resize', setHeaderHeight);
+  addEventListener('orientationchange', setHeaderHeight);
+  setTimeout(setHeaderHeight, 150);
 
-    // Dynamic header height -> stable iframe height even if title wraps
-    function setHeaderHeight(){
-      const hdr = document.getElementById('hdr');
-      const h = hdr.offsetHeight || 58; // fallback
-      document.documentElement.style.setProperty('--header-h', h + 'px');
-    }
-    setHeaderHeight();
-    addEventListener('resize', setHeaderHeight);
-    addEventListener('orientationchange', setHeaderHeight);
-    // Re-run after fonts settle
-    setTimeout(setHeaderHeight, 150);
-  })();
+  const root = document.getElementById('viewerRoot');
+  const fallback = document.getElementById('fallback');
+  if (!src) { fallback.hidden = false; return; }
+
+  // iOS/iPadOS detection
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+  if (isIOS) {
+    // iOS scrolls PDFs reliably with <embed>
+    const el = document.createElement('embed');
+    el.className = 'pdf';
+    el.type = 'application/pdf';
+    el.src = src;
+    root.appendChild(el);
+  } else {
+    // Other browsers: <object> with fallback
+    const el = document.createElement('object');
+    el.className = 'pdf';
+    el.type = 'application/pdf';
+    el.setAttribute('data', src);
+    el.innerHTML = fallback.innerHTML; // graceful fallback content
+    root.appendChild(el);
+  }
+})();
 </script>
 </body>
 </html>

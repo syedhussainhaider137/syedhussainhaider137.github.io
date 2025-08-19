@@ -23,6 +23,7 @@
     --card-shadow: rgba(255,255,255,0.08);
     --border: rgba(255,255,255,0.12);
   }
+
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body {
@@ -48,7 +49,25 @@
     border-bottom: 1px solid var(--border);
   }
   .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 0; }
-  .logo { font-size: clamp(1.1rem, 1vw + 1rem, 1.25rem); font-weight: 700; }
+
+  /* Logo + profile pic */
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: clamp(1.1rem, 1vw + 1rem, 1.25rem);
+    font-weight: 700;
+  }
+  .logo .profile-pic {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center;
+    border: 1.5px solid var(--border);           /* subtle ring that adapts to theme */
+    background: var(--bg-color);                 /* avoids dark fringing on dark mode */
+  }
+
   .nav-links { list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0; }
   .nav-links a { font-weight: 500; }
   .nav-links a.active { color: var(--primary-color); font-weight: 700; }
@@ -73,7 +92,7 @@
   .hero h1 { margin: 0 0 .35rem 0; font-size: clamp(1.4rem, 2.2vw + 1rem, 2rem); }
   .hero p { margin: 0; opacity: .9; font-size: clamp(0.95rem, 0.4vw + 0.9rem, 1.05rem); }
 
-  /* Controls */
+  /* Controls (Search + Sort) */
   .controls {
     display: flex;
     flex-wrap: wrap;
@@ -139,7 +158,10 @@
 <!-- Navbar -->
 <nav class="navbar">
   <div class="container nav-inner">
-    <div class="logo">Syed Hussain Haider</div>
+    <div class="logo">
+  <img src="IMG_2932.JPG" alt="Profile picture of Syed Hussain Haider" class="profile-pic">
+  Syed Hussain Haider
+</div>
     <ul class="nav-links" id="primary-nav" aria-label="Primary Navigation">
       <li><a href="index.html">Home</a></li>
       <li><a href="projects.html">Projects</a></li>

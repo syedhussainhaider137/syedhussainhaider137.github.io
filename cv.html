@@ -52,6 +52,7 @@
   .nav-links { list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0; }
   .nav-links a { font-weight: 500; }
   .nav-links a.active { color: var(--primary-color); font-weight: 700; }
+
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .nav-links.open { display: grid; grid-template-columns: 1fr; gap: .25rem; padding: .5rem 0; }
@@ -67,7 +68,7 @@
   .viewer-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; box-shadow: 0 2px 4px var(--card-shadow); }
   .pdf-viewer {
     width: 100%;
-    height: clamp(480px, 80vh, 960px); /* responsive height */
+    height: clamp(480px, 80vh, 960px);
     border: none;
     border-radius: 8px;
     background: #fff;
@@ -78,6 +79,9 @@
   .btn.primary { background: var(--primary-color); color: #fff; border-color: transparent; }
 
   footer { text-align: center; padding: 2rem 1rem; font-size: .95rem; opacity: .9; }
+
+  /* Media */
+  img, video { max-width: 100%; height: auto; display: block; }
 
   /* Reduced motion */
   @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
@@ -108,7 +112,7 @@
         <li><a href="projects.html">Projects</a></li>
         <li><a href="reports.html">Reports</a></li>
         <li><a href="journal.html">Scientific Essays</a></li>
-        <li><a class="active" href="cv.html">CV</a></li>
+        <li><a href="cv.html" class="active">CV</a></li>
       </ul>
       <div class="nav-actions">
         <button class="toggle-theme" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button>
@@ -126,11 +130,11 @@
 
   <main class="container">
     <section class="viewer-card">
-      <!-- Prefer <object> for broader support; falls back gracefully -->
+      <!-- Use <object> for better cross-browser behavior with a graceful fallback -->
       <object data="CV_3-5.pdf" type="application/pdf" class="pdf-viewer" aria-label="Embedded CV PDF">
         <p>Your browser can’t display embedded PDFs. You can 
-          <a href="CV_3-5.pdf" class="btn primary">Open the CV</a> 
-          or <a href="CV_3-5.pdf" download class="btn">Download the CV</a>.
+          <a href="CV_3-5.pdf" class="btn primary" target="_blank" rel="noopener">open the CV</a> 
+          or <a href="CV_3-5.pdf" download class="btn">download the CV</a>.
         </p>
       </object>
 

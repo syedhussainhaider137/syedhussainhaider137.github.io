@@ -6,7 +6,6 @@
 <title>Projects – Syed Hussain Haider</title>
 
 <style>
-  /* === Design tokens (match site) === */
   :root {
     --bg-color: #ffffff;
     --text-color: #1f2937;
@@ -53,8 +52,7 @@
 
   /* Page header */
   .hero { text-align: left; padding: clamp(1.25rem, 4vw, 3rem) 0 1rem; }
-  .hero h1 { margin: 0 0 .35rem 0; font-size: clamp(1.4rem, 2.2vw + 1rem, 2rem); }
-  .hero p  { margin: 0; opacity: .9; font-size: clamp(0.95rem, 0.4vw + 0.9rem, 1.05rem); }
+  .hero h1 { margin: 0; font-size: clamp(1.4rem, 2.2vw + 1rem, 2rem); }
 
   /* Controls */
   .controls { display: grid; grid-template-columns: 1fr; gap: .75rem; padding-bottom: 1rem; }
@@ -75,8 +73,6 @@
   .empty { grid-column: 1 / -1; text-align: center; opacity: .8; }
 
   footer { text-align: center; padding: 2rem 1rem; font-size: .95rem; opacity: .9; }
-
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 
 <script>
@@ -98,7 +94,6 @@
 </head>
 <body>
 
-<!-- Navbar -->
 <nav class="navbar">
   <div class="container nav-inner">
     <div class="logo">Syed Hussain Haider</div>
@@ -116,15 +111,12 @@
   </div>
 </nav>
 
-<!-- Page header -->
 <header class="hero">
   <div class="container">
     <h1>Projects</h1>
-    <p>Experiments, tools, and code. Add items to <code>projects/projects.json</code> when you're ready.</p>
   </div>
 </header>
 
-<!-- Controls (kept for consistency even if empty) -->
 <div class="container">
   <div class="controls">
     <label class="sr-only" for="search">Search</label>
@@ -137,14 +129,12 @@
   </div>
 </div>
 
-<!-- Grid -->
 <main class="container">
   <section class="sections" id="projects-grid">
-    <div class="empty">No projects yet. Create <code>projects/projects.json</code> and add entries when you have them.</div>
+    <div class="empty">No projects yet.</div>
   </section>
 </main>
 
-<!-- Data loader (will fill grid when JSON exists) -->
 <script>
 (async function(){
   const GRID  = document.getElementById('projects-grid');
@@ -154,18 +144,15 @@
   async function fetchEntries(){
     try {
       const res = await fetch(SRC, { cache: 'no-store' });
-      if (!res.ok) throw new Error('Missing or invalid projects.json');
+      if (!res.ok) throw new Error();
       return await res.json();
-    } catch (e) {
-      // stay in empty state silently if file doesn't exist yet
-      return [];
-    }
+    } catch { return []; }
   }
 
   function render(list){
     GRID.innerHTML = '';
     if (!list.length){
-      GRID.innerHTML = '<div class="empty">No projects yet. Add items to <code>projects/projects.json</code> (title, date, summary, url).</div>';
+      GRID.innerHTML = '<div class="empty">No projects yet.</div>';
       return;
     }
     for (const it of list){

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Journal – Syed Hussain Haider</title>
+<title>Scientific Essays – Syed Hussain Haider</title>
 
 <style>
 /* === Same design system as index.html === */
@@ -30,7 +30,7 @@ body {
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Navbar (copied from index) */
+/* Navbar */
 .navbar {
   display: flex;
   align-items: center;
@@ -67,7 +67,7 @@ body {
   cursor: pointer;
 }
 
-/* Page header (to mirror homepage spacing) */
+/* Page header */
 .hero {
   text-align: left;
   max-width: 960px;
@@ -83,7 +83,7 @@ body {
   opacity: .9;
 }
 
-/* Controls (search/sort) */
+/* Controls */
 .controls {
   display: flex;
   gap: 0.75rem;
@@ -103,7 +103,7 @@ body {
   outline: none;
 }
 
-/* Card grid (use homepage styles) */
+/* Card grid */
 .sections {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -144,7 +144,6 @@ body {
 </style>
 
 <script>
-/* === Same theme toggle behaviour as index.html === */
 function toggleTheme() {
   document.body.classList.toggle('dark');
   localStorage.setItem('theme',
@@ -158,14 +157,14 @@ document.addEventListener('DOMContentLoaded', () => {
 </head>
 <body>
 
-<!-- Navbar identical to homepage -->
+<!-- Navbar -->
 <nav class="navbar">
   <div class="logo">Syed Hussain Haider</div>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
     <li><a href="projects.html">Projects</a></li>
     <li><a href="reports.html">Reports</a></li>
-    <li><a href="journal.html"><strong>Journal</strong></a></li>
+    <li><a href="journal.html"><strong>Scientific Essays</strong></a></li>
     <li><a href="cv.html">CV</a></li>
   </ul>
   <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
@@ -173,8 +172,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 <!-- Page header -->
 <header class="hero">
-  <h1>Journal</h1>
-  <p>Short topics every other day. Click a card to open the full PDF.</p>
+  <h1>Scientific Essays</h1>
+  <p>Short essays and reflections. Click a card to open the full PDF.</p>
 </header>
 
 <!-- Filters -->
@@ -186,12 +185,11 @@ document.addEventListener('DOMContentLoaded', () => {
   </select>
 </div>
 
-<!-- Grid container (auto-populated) -->
+<!-- Grid -->
 <section class="sections" id="journal-grid">
-  <div class="empty">Loading journals…</div>
+  <div class="empty">Loading scientific essays…</div>
 </section>
 
-<!-- Data loader (unchanged logic) -->
 <script>
 (async function(){
   const GRID  = document.getElementById('journal-grid');
@@ -207,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function render(list){
     GRID.innerHTML = '';
     if (!list.length){
-      GRID.innerHTML = '<div class="empty">No journal entries yet. Add PDFs in <code>/journals/</code> and an item in <code>journals/journals.json</code>.</div>';
+      GRID.innerHTML = '<div class="empty">No essays yet. Add PDFs in <code>/journals/</code> and an item in <code>journals/journals.json</code>.</div>';
       return;
     }
     for (const it of list){
@@ -263,3 +261,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+

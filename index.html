@@ -19,9 +19,7 @@ body.dark {
   --card-bg: #1e293b;
   --card-shadow: rgba(255,255,255,0.1);
 }
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 body {
   margin: 0;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
@@ -37,84 +35,31 @@ body {
   background: var(--card-bg);
   box-shadow: 0 2px 4px var(--card-shadow);
 }
-.navbar .logo {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-.navbar .nav-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-  margin: 0;
-}
+.navbar .logo { font-size: 1.25rem; font-weight: bold; }
+.navbar .nav-links { list-style: none; display: flex; gap: 1.5rem; margin: 0; }
 .navbar .nav-links a {
-  text-decoration: none;
-  color: var(--text-color);
-  font-weight: 500;
-  transition: color 0.2s;
+  text-decoration: none; color: var(--text-color); font-weight: 500; transition: color 0.2s;
 }
-.navbar .nav-links a:hover {
-  color: var(--primary-color);
-}
+.navbar .nav-links a:hover { color: var(--primary-color); }
 .toggle-theme {
-  background: var(--primary-color);
-  border: none;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
+  background: var(--primary-color); border: none; color: #fff; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;
 }
-.hero {
-  text-align: center;
-  padding: 2rem 1rem;
-}
-.hero h1 {
-  font-size: 2.5rem;
-  margin: 0;
-}
-.hero p {
-  font-size: 1.1rem;
-  margin-top: 0.5rem;
-  color: var(--text-color);
-}
+.hero { text-align: center; padding: 2rem 1rem; }
+.hero h1 { font-size: 2.5rem; margin: 0; }
+.hero p { font-size: 1.1rem; margin-top: 0.5rem; color: var(--text-color); }
 .sections {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem; max-width: 960px; margin: 0 auto; padding: 2rem 1rem;
 }
 .card {
-  background: var(--card-bg);
-  border-radius: 10px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 4px var(--card-shadow);
-  transition: transform 0.2s, box-shadow 0.2s;
+  background: var(--card-bg); border-radius: 10px; padding: 1.5rem;
+  box-shadow: 0 2px 4px var(--card-shadow); transition: transform 0.2s, box-shadow 0.2s;
 }
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 8px var(--card-shadow);
-}
-.card h3 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-  color: var(--primary-color);
-}
-.card p {
-  margin: 0;
-  line-height: 1.4;
-}
-.card a {
-  text-decoration: none;
-  color: var(--primary-color);
-}
-footer {
-  text-align: center;
-  padding: 2rem 1rem;
-  font-size: 0.9rem;
-  color: var(--text-color);
-}
+.card:hover { transform: translateY(-5px); box-shadow: 0 4px 8px var(--card-shadow); }
+.card h3 { margin-top: 0; margin-bottom: 0.5rem; color: var(--primary-color); }
+.card p { margin: 0; line-height: 1.4; }
+.card a { text-decoration: none; color: var(--primary-color); }
+footer { text-align: center; padding: 2rem 1rem; font-size: 0.9rem; color: var(--text-color); }
 </style>
 <script>
 function toggleTheme() {
@@ -123,9 +68,7 @@ function toggleTheme() {
 }
 document.addEventListener('DOMContentLoaded', () => {
   const saved = localStorage.getItem('theme');
-  if (saved === 'dark') {
-    document.body.classList.add('dark');
-  }
+  if (saved === 'dark') document.body.classList.add('dark');
 });
 </script>
 </head>
@@ -136,7 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <li><a href="index.html">Home</a></li>
     <li><a href="projects.html">Projects</a></li>
     <li><a href="reports.html">Reports</a></li>
-    <li><a href="journal.html">Journal</a></li>
+    <li><a href="journal.html">Scientific Essays</a></li>
     <li><a href="cv.html">CV</a></li>
   </ul>
   <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
@@ -157,9 +100,9 @@ document.addEventListener('DOMContentLoaded', () => {
     <a href="reports.html">Read reports →</a>
   </div>
   <div class="card">
-    <h3>Journal</h3>
-    <p>Short reflections and insights on theoretical physics.</p>
-    <a href="journal.html">Go to journal →</a>
+    <h3>Scientific Essays</h3>
+    <p>Short essays and reflections in theoretical physics.</p>
+    <a href="journal.html">Read essays →</a>
   </div>
   <div class="card">
     <h3>CV</h3>

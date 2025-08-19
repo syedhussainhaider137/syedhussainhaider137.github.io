@@ -1,124 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>CV – Syed Hussain Haider</title>
 <style>
-:root {
-  --bg-color: #ffffff;
-  --text-color: #1f2937;
-  --primary-color: #6366f1;
-  --card-bg: #f9fafb;
-  --card-shadow: rgba(0,0,0,0.05);
-}
-body.dark {
-  --bg-color: #0f172a;
-  --text-color: #f1f5f9;
-  --primary-color: #818cf8;
-  --card-bg: #1e293b;
-  --card-shadow: rgba(255,255,255,0.1);
-}
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  transition: background-color 0.3s, color 0.3s;
-}
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.5rem;
-  background: var(--card-bg);
-  box-shadow: 0 2px 4px var(--card-shadow);
-}
-.navbar .logo {
-  font-size: 1.25rem;
-  font-weight: bold;
-}
-.navbar .nav-links {
-  list-style: none;
-  display: flex;
-  gap: 1.5rem;
-  margin: 0;
-}
-.navbar .nav-links a {
-  text-decoration: none;
-  color: var(--text-color);
-  font-weight: 500;
-  transition: color 0.2s;
-}
-.navbar .nav-links a:hover {
-  color: var(--primary-color);
-}
-.toggle-theme {
-  background: var(--primary-color);
-  border: none;
-  color: #fff;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  cursor: pointer;
-}
-.hero {
-  text-align: center;
-  padding: 2rem 1rem;
-}
-.hero h1 {
-  font-size: 2.5rem;
-  margin: 0;
-}
-.hero p {
-  font-size: 1.1rem;
-  margin-top: 0.5rem;
-  color: var(--text-color);
-}
-footer {
-  text-align: center;
-  padding: 2rem 1rem;
-  font-size: 0.9rem;
-  color: var(--text-color);
-}
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #1f2937;
+    --primary-color: #6366f1;
+    --card-bg: #f9fafb;
+    --card-shadow: rgba(0,0,0,0.05);
+    --border: rgba(0,0,0,0.08);
+  }
+  body.dark {
+    --bg-color: #0f172a;
+    --text-color: #f1f5f9;
+    --primary-color: #818cf8;
+    --card-bg: #1e293b;
+    --card-shadow: rgba(255,255,255,0.08);
+    --border: rgba(255,255,255,0.12);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color .3s, color .3s;
+    line-height: 1.6;
+  }
+  a { color: var(--primary-color); text-decoration: none; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--primary-color); outline-offset: 2px; }
+
+  .container { width: min(1100px, 92vw); margin: 0 auto; padding-inline: 1rem; }
+
+  /* Navbar */
+  .navbar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--card-bg);
+    box-shadow: 0 2px 4px var(--card-shadow);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 0; }
+  .logo { font-size: clamp(1.1rem, 1vw + 1rem, 1.25rem); font-weight: 700; }
+  .nav-actions { display: flex; align-items: center; gap: .5rem; }
+  .toggle-theme, .menu-toggle { border: 1px solid var(--border); background: var(--bg-color); color: var(--text-color); padding: .5rem .75rem; border-radius: 8px; cursor: pointer; }
+  .toggle-theme:hover, .menu-toggle:hover { background: var(--card-bg); }
+  .nav-links { list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0; }
+  .nav-links a { font-weight: 500; }
+  .nav-links a.active { color: var(--primary-color); font-weight: 700; }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .nav-links.open { display: grid; grid-template-columns: 1fr; gap: .25rem; padding: .5rem 0; }
+  }
+  @media (min-width: 769px) { .menu-toggle { display: none; } }
+
+  /* Hero */
+  .hero { text-align: center; padding: clamp(1.25rem, 4vw, 3rem) 0; }
+  .hero h1 { margin: 0; font-size: clamp(1.6rem, 2.6vw + 1rem, 2.6rem); }
+  .hero p { margin: .5rem 0 0; font-size: clamp(1rem, .6vw + .9rem, 1.1rem); opacity: .9; }
+
+  /* CV viewer */
+  .viewer-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 1rem; box-shadow: 0 2px 4px var(--card-shadow); }
+  .pdf-viewer {
+    width: 100%;
+    height: clamp(480px, 80vh, 960px); /* responsive height */
+    border: none;
+    border-radius: 8px;
+    background: #fff;
+    display: block;
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: center; margin-top: 1rem; }
+  .btn { border: 1px solid var(--border); background: var(--bg-color); color: var(--text-color); padding: .6rem .9rem; border-radius: 8px; text-decoration: none; display: inline-block; }
+  .btn.primary { background: var(--primary-color); color: #fff; border-color: transparent; }
+
+  footer { text-align: center; padding: 2rem 1rem; font-size: .95rem; opacity: .9; }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 <script>
-function toggleTheme() {
-  document.body.classList.toggle('dark');
-  localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-}
-document.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('theme');
-  if (saved === 'dark') {
-    document.body.classList.add('dark');
+  function toggleTheme() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
   }
-});
+  function toggleMenu() {
+    const list = document.querySelector('.nav-links');
+    list.classList.toggle('open');
+    const expanded = list.classList.contains('open');
+    document.querySelector('.menu-toggle').setAttribute('aria-expanded', expanded);
+  }
+  document.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') document.body.classList.add('dark');
+  });
 </script>
 </head>
 <body>
-<nav class="navbar">
-  <div class="logo">Syed Hussain Haider</div>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="projects.html">Projects</a></li>
-    <li><a href="reports.html">Reports</a></li>
-    <li><a href="journal.html">Scientific Essays</a></li>
-    <li><a href="cv.html"><strong>CV</strong></a></li>
-  </ul>
-  <button class="toggle-theme" onclick="toggleTheme()">Toggle Theme</button>
-</nav>
-<header class="hero">
-  <h1>Curriculum Vitae</h1>
-  <p>View or download my CV below.</p>
-</header>
-<section style="max-width:960px; margin:0 auto; padding:2rem 1rem;">
-  <embed src="CV_3-5.pdf" type="application/pdf" width="100%" height="800px">
-  <p>If the PDF does not display, <a href="CV_3-4.pdf" download>download it here</a>.</p>
-</section>
-<footer>
-  &copy; 2025 Syed Hussain Haider. All rights reserved.
-</footer>
+  <nav class="navbar">
+    <div class="container nav-inner">
+      <div class="logo">Syed Hussain Haider</div>
+      <ul class="nav-links" id="primary-nav" aria-label="Primary Navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="reports.html">Reports</a></li>
+        <li><a href="journal.html">Scientific Essays</a></li>
+        <li><a class="active" href="cv.html">CV</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="toggle-theme" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu">Menu</button>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1>Curriculum Vitae</h1>
+      <p>View or download my CV below.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="viewer-card">
+      <!-- Prefer <object> for broader support; falls back gracefully -->
+      <object data="CV_3-5.pdf" type="application/pdf" class="pdf-viewer" aria-label="Embedded CV PDF">
+        <p>Your browser can’t display embedded PDFs. You can 
+          <a href="CV_3-5.pdf" class="btn primary">Open the CV</a> 
+          or <a href="CV_3-5.pdf" download class="btn">Download the CV</a>.
+        </p>
+      </object>
+
+      <div class="actions">
+        <a href="CV_3-5.pdf" class="btn primary" target="_blank" rel="noopener">Open in new tab</a>
+        <a href="CV_3-5.pdf" class="btn" download>Download</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 Syed Hussain Haider. All rights reserved.
+  </footer>
 </body>
 </html>

@@ -12,6 +12,7 @@
     --border: #1f2937;
     --text: #e5e7eb;
     --accent: #a5b4fc;
+    --header-h: 58px;
   }
   html { -webkit-text-size-adjust: 100%; }
   body {
@@ -29,25 +30,25 @@
     background: var(--panel); border-bottom: 1px solid var(--border);
   }
   .back { font-size: 0.95rem; }
-  .title { margin: 0; font-size: clamp(1rem, 2.2vw + .6rem, 1.05rem); font-weight: 600; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .title {
+    margin: 0; font-size: clamp(1rem, 2.2vw + .6rem, 1.05rem); font-weight: 600;
+    flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
   .actions { display: flex; gap: .5rem; }
   .btn { display: inline-block; border: 1px solid var(--border); background: #0f172a; color: var(--text); padding: .4rem .6rem; border-radius: 8px; font-size: .9rem; }
 
   /* Viewer area */
-  main { height: calc(100dvh - 58px); }
+  main { height: calc(100dvh - var(--header-h)); }
   .pdf {
     width: 100%; height: 100%; border: 0; display: block; background: var(--panel);
   }
   .fallback { padding: 1rem; text-align: center; }
 
-  /* Small screens: keep buttons big enough to tap */
-  @media (max-width: 480px) {
-    .btn { padding: .5rem .6rem; }
-  }
+  @media (max-width: 480px) { .btn { padding: .5rem .6rem; } }
 </style>
 </head>
 <body>
-  <header>
+  <header id="hdr">
     <a class="back" id="backLink" href="../journal.html" aria-label="Back">← Back</a>
     <h1 class="title" id="title">Document</h1>
     <div class="actions">
@@ -56,14 +57,12 @@
     </div>
   </header>
 
-  <main>
-    <!-- Prefer <object> for broader compatibility; provides built-in fallback -->
-    <object id="pdfObject" class="pdf" type="application/pdf">
-      <div class="fallback">
-        Your browser can't display embedded PDFs. You can
-        <a id="openAlt">open the file</a> or <a id="dlAlt" download>download it</a>.
-      </div>
-    </object>
+  <main id="viewerRoot">
+    <!-- We’ll insert <embed> on iOS, <object> elsewhere -->
+    <div class="fallback" id="fallback" hidden>
+      Your browser can't display embedded PDFs. You can
+      <a id="openAlt">open the file</a> or <a id="dlAlt" download>download it</a>.
+    </div>
   </main>
 
   <script>
@@ -76,17 +75,49 @@
       // Populate UI
       document.getElementById('title').textContent = title;
       document.getElementById('backLink').href = back;
-
-      const setLink = (id, href) => { const el = document.getElementById(id); if (el) el.href = href; };
+      const setLink = (id, href) => { const el = document.getElementById(id); if (el && href) el.href = href; };
       setLink('openBtn', pdf);
       setLink('dlBtn', pdf);
       setLink('openAlt', pdf);
       setLink('dlAlt', pdf);
 
-      // Set <object> data only if provided
-      const obj = document.getElementById('pdfObject');
-      if (pdf) obj.setAttribute('data', pdf);
-      else obj.outerHTML = '<div class="fallback">No PDF specified. Append <code>?pdf=path/to/file.pdf&title=Title</code> to the URL.</div>';
+      // Adjust viewer height based on actual header height (handles wrapping/rotation)
+      function setHeaderHeight(){
+        const h = document.getElementById('hdr').offsetHeight || 58;
+        document.documentElement.style.setProperty('--header-h', h + 'px');
+      }
+      setHeaderHeight();
+      addEventListener('resize', setHeaderHeight);
+      addEventListener('orientationchange', setHeaderHeight);
+      setTimeout(setHeaderHeight, 150);
+
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      const root = document.getElementById('viewerRoot');
+      const fallback = document.getElementById('fallback');
+
+      if (!pdf) {
+        fallback.hidden = false;
+        return;
+      }
+
+      // On iOS: prefer <embed> (scrolls correctly); elsewhere: <object>
+      if (isIOS) {
+        const el = document.createElement('embed');
+        el.className = 'pdf';
+        el.type = 'application/pdf';
+        el.src = pdf;
+        root.appendChild(el);
+      } else {
+        const el = document.createElement('object');
+        el.className = 'pdf';
+        el.type = 'application/pdf';
+        el.setAttribute('data', pdf);
+        // Built-in fallback if the browser can’t render the PDF
+        el.innerHTML = fallback.innerHTML;
+        root.appendChild(el);
+      }
     })();
   </script>
 </body>

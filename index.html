@@ -52,8 +52,6 @@
     gap: 1rem;
   }
   .logo { font-size: clamp(1.1rem, 1vw + 1rem, 1.25rem); font-weight: 700; }
-
-  /* Menu + actions */
   .nav-actions { display: flex; align-items: center; gap: .5rem; }
   .toggle-theme, .menu-toggle {
     border: 1px solid var(--border);
@@ -73,13 +71,10 @@
   @media (max-width: 768px) {
     .nav-links { display: none; }
     .nav-links.open { display: grid; grid-template-columns: 1fr; gap: .25rem; padding: .5rem 0; }
-    .nav-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
   }
 
   /* Desktop layout */
-  @media (min-width: 769px) {
-    .menu-toggle { display: none; }
-  }
+  @media (min-width: 769px) { .menu-toggle { display: none; } }
 
   /* Hero */
   .hero { text-align: center; padding: clamp(1.25rem, 4vw, 3rem) 0; }
@@ -93,12 +88,8 @@
     gap: 1.25rem;
     padding: 1.5rem 0 2.5rem;
   }
-  @media (min-width: 600px) {
-    .sections { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (min-width: 960px) {
-    .sections { grid-template-columns: repeat(4, 1fr); }
-  }
+  @media (min-width: 600px) { .sections { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 960px) { .sections { grid-template-columns: repeat(4, 1fr); } }
 
   .card {
     background: var(--card-bg); border-radius: 12px; padding: 1.25rem;
@@ -117,9 +108,7 @@
   img, video { max-width: 100%; height: auto; display: block; }
 
   /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; }
-  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 <script>
   function toggleTheme() {
@@ -142,18 +131,19 @@
   <nav class="navbar">
     <div class="container nav-inner">
       <div class="logo">Syed Hussain Haider</div>
-      <div class="nav-row">
-        <ul class="nav-links" id="primary-nav" aria-label="Primary Navigation">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="projects.html">Projects</a></li>
-          <li><a href="reports.html">Reports</a></li>
-          <li><a href="journal.html">Scientific Essays</a></li>
-          <li><a href="cv.html">CV</a></li>
-        </ul>
-        <div class="nav-actions">
-          <button class="toggle-theme" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button>
-          <button class="menu-toggle" onclick="toggleMenu()" aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu">Menu</button>
-        </div>
+
+      <!-- Links and actions are siblings (matches projects.html) -->
+      <ul class="nav-links" id="primary-nav" aria-label="Primary Navigation">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="reports.html">Reports</a></li>
+        <li><a href="journal.html">Scientific Essays</a></li>
+        <li><a href="cv.html">CV</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="toggle-theme" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button>
+        <button class="menu-toggle" onclick="toggleMenu()" aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu">Menu</button>
       </div>
     </div>
   </nav>

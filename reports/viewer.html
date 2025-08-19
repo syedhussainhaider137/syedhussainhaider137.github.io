@@ -1,38 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Report Viewer</title>
+<meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Report Viewer</title>
 <style>
-  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#0b0f19; color:#e5e7eb; }
-  header { padding:12px 16px; background:#111827; border-bottom:1px solid #1f2937; display:flex; gap:12px; align-items:center; }
-  a { color:#a5b4fc; text-decoration:none; }
-  h1 { margin:0; font-size:16px; font-weight:600; }
-  iframe { width:100%; height:calc(100vh - 58px); border:0; background:#111827; }
+  /* Minimal mobile fix while keeping your original look */
+  :root { --bg:#0b0f19; --panel:#111827; --border:#1f2937; --text:#e5e7eb; --accent:#a5b4fc; --header-h:58px; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:var(--bg); color:var(--text); line-height:1.5; }
+  a { color:var(--accent); text-decoration:none; }
+  a:focus-visible, button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+  header{
+    position:sticky; top:0; z-index:10;
+    padding:max(12px, env(safe-area-inset-top)) 16px 12px 16px;
+    background:var(--panel); border-bottom:1px solid var(--border);
+    display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+  }
+  header a.back{ white-space:nowrap; }
+  h1{ margin:0; font-size:16px; font-weight:600; overflow:hidden; text-overflow:ellipsis; }
+
+  /* Use dynamic viewport height for mobile browsers */
+  .frame-wrap{ height:calc(100dvh - var(--header-h)); }
+  iframe{ width:100%; height:100%; border:0; background:var(--panel); display:block; }
+
+  /* Make tap targets comfy on small screens */
+  @media (max-width:480px){
+    header{ gap:10px; }
+    h1{ font-size:15px; }
+  }
 </style>
 </head>
 <body>
-<header>
-  <a href="../reports.html">← Back to Reports</a>
+<header id="hdr">
+  <a class="back" href="../reports.html">← Back to Reports</a>
   <h1 id="title"></h1>
 </header>
-<iframe id="pdfFrame"></iframe>
+<div class="frame-wrap">
+  <iframe id="pdfFrame" title="Report PDF"></iframe>
+</div>
 <script>
-  const p = new URLSearchParams(location.search);
-  const title = p.get('title') || 'Report';
-  let pdf = p.get('pdf') || '';
+  (function(){
+    const p = new URLSearchParams(location.search);
+    const title = p.get('title') || 'Report';
+    let pdf = p.get('pdf') || '';
 
-  // If someone passed "reports/filename.pdf", strip the extra prefix
-  pdf = pdf.replace(/^reports\//, '');
+    // If someone passed "reports/filename.pdf", strip the extra prefix
+    pdf = pdf.replace(/^reports\//, '');
 
-  // Build a path relative to this viewer (which lives in /reports/)
-  // So a bare filename "x.pdf" becomes "./x.pdf"
-  const src = pdf.startsWith('http') || pdf.startsWith('/') ? pdf : `./${pdf}`;
+    // Build a path relative to this viewer (which lives in /reports/)
+    // So a bare filename "x.pdf" becomes "./x.pdf"
+    const src = (/^https?:\/\//.test(pdf) || pdf.startsWith('/')) ? pdf : (pdf ? `./${pdf}` : '');
 
-  document.getElementById('title').textContent = title;
-  document.getElementById('pdfFrame').src = src;
+    // Populate UI
+    document.getElementById('title').textContent = title;
+    if (src) document.getElementById('pdfFrame').src = src;
+
+    // Dynamic header height -> stable iframe height even if title wraps
+    function setHeaderHeight(){
+      const hdr = document.getElementById('hdr');
+      const h = hdr.offsetHeight || 58; // fallback
+      document.documentElement.style.setProperty('--header-h', h + 'px');
+    }
+    setHeaderHeight();
+    addEventListener('resize', setHeaderHeight);
+    addEventListener('orientationchange', setHeaderHeight);
+    // Re-run after fonts settle
+    setTimeout(setHeaderHeight, 150);
+  })();
 </script>
-
 </body>
 </html>

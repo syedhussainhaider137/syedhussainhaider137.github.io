@@ -1,124 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Document Viewer</title>
 <style>
-  /* Dark, minimal, mobile-first */
-  :root {
-    --bg: #0b0f19;         /* page bg */
-    --panel: #111827;      /* header + chrome */
-    --border: #1f2937;
-    --text: #e5e7eb;
-    --accent: #a5b4fc;
-    --header-h: 58px;
+  /* Dark, mobile-first, simple chrome */
+  :root{
+    --bg:#0b0f19;
+    --panel:#111827;
+    --muted:#9ca3af;
+    --border:#1f2937;
+    --text:#e5e7eb;
+    --accent:#a5b4fc;
+    --header-h:56px;
+    --page-gap:12px;
+    --page-shadow:0 2px 10px rgba(0,0,0,.35);
   }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.5;
-  }
-  a { color: var(--accent); text-decoration: none; }
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  html{-webkit-text-size-adjust:100%;}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.5;}
+  a{color:var(--accent);text-decoration:none}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-  /* Header */
-  header {
-    position: sticky; top: 0; z-index: 10;
-    display: flex; align-items: center; gap: .75rem;
-    padding: max(12px, env(safe-area-inset-top)) 16px 12px 16px;
-    background: var(--panel); border-bottom: 1px solid var(--border);
+  header{
+    position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:.75rem;
+    padding: max(12px, env(safe-area-inset-top)) 14px 12px 14px;
+    background:var(--panel);border-bottom:1px solid var(--border)
   }
-  .back { font-size: 0.95rem; }
-  .title {
-    margin: 0; font-size: clamp(1rem, 2.2vw + .6rem, 1.05rem); font-weight: 600;
-    flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
-  .actions { display: flex; gap: .5rem; }
-  .btn { display: inline-block; border: 1px solid var(--border); background: #0f172a; color: var(--text); padding: .4rem .6rem; border-radius: 8px; font-size: .9rem; }
+  .back{font-size:.95rem;white-space:nowrap}
+  .title{margin:0;font-size:clamp(1rem,2.2vw + .5rem,1.1rem);font-weight:600;flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .actions{display:flex;gap:.5rem}
+  .btn{display:inline-block;border:1px solid var(--border);background:#0f172a;color:var(--text);padding:.45rem .6rem;border-radius:8px;font-size:.9rem}
 
-  /* Viewer area */
-  main { height: calc(100dvh - var(--header-h)); }
-  .pdf {
-    width: 100%; height: 100%; border: 0; display: block; background: var(--panel);
+  main{height:calc(100dvh - var(--header-h));}
+  #viewer{
+    height:100%;overflow:auto;scroll-behavior:smooth;-webkit-overflow-scrolling:touch;
+    padding:12px;
   }
-  .fallback { padding: 1rem; text-align: center; }
 
-  @media (max-width: 480px) { .btn { padding: .5rem .6rem; } }
+  .hint{color:var(--muted);font-size:.9rem;text-align:center;margin:10px 0}
+  .page{
+    display:block;margin:0 auto var(--page-gap) auto;background:#fff;border-radius:8px;box-shadow:var(--page-shadow);
+    transform:translateZ(0);
+  }
+  .page[data-loading="true"]{
+    background:linear-gradient(90deg,#1f2432,#22283a,#1f2432);
+    background-size:200% 100%;animation:shimmer 1.2s linear infinite;border:1px solid #1f2937;height:60vh;max-width:min(100%,900px)
+  }
+  @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+  .toolbar{
+    position:sticky;top:calc(-1 * 8px); /* just under header padding */
+    z-index:5;display:flex;gap:8px;justify-content:center;align-items:center;
+    padding:6px 0 8px 0;
+    background:linear-gradient(to bottom, rgba(11,15,25,.96), rgba(11,15,25,.85) 60%, transparent);
+    backdrop-filter:blur(4px)
+  }
+  .tb-btn{
+    border:1px solid var(--border);background:var(--panel);color:var(--text);
+    padding:.45rem .65rem;border-radius:10px;font-size:.9rem
+  }
+  .zoom{min-width:5.5rem;text-align:center;color:var(--muted)}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 </style>
 </head>
 <body>
-  <header id="hdr">
-    <a class="back" id="backLink" href="../journal.html" aria-label="Back">← Back</a>
-    <h1 class="title" id="title">Document</h1>
-    <div class="actions">
-      <a id="openBtn" class="btn" target="_blank" rel="noopener">Open</a>
-      <a id="dlBtn" class="btn" download>Download</a>
-    </div>
-  </header>
+<header id="hdr">
+  <a class="back" id="backLink" href="../journal.html" aria-label="Back">← Back</a>
+  <h1 class="title" id="title">Document</h1>
+  <div class="actions">
+    <a id="openBtn" class="btn" target="_blank" rel="noopener">Open</a>
+    <a id="dlBtn" class="btn" download>Download</a>
+  </div>
+</header>
 
-  <main id="viewerRoot">
-    <!-- We’ll insert <embed> on iOS, <object> elsewhere -->
-    <div class="fallback" id="fallback" hidden>
-      Your browser can't display embedded PDFs. You can
-      <a id="openAlt">open the file</a> or <a id="dlAlt" download>download it</a>.
-    </div>
-  </main>
+<main id="root">
+  <div class="toolbar" aria-label="Viewer controls">
+    <button id="fitWidth" class="tb-btn" type="button">Fit width</button>
+    <button id="fitPage" class="tb-btn" type="button">Fit page</button>
+    <button id="zoomOut" class="tb-btn" type="button">−</button>
+    <div class="zoom" id="zoomLabel">100%</div>
+    <button id="zoomIn" class="tb-btn" type="button">+</button>
+  </div>
+  <div class="hint">Rendering PDF… pages will appear as you scroll.</div>
+  <div id="viewer" aria-live="polite" aria-busy="true"></div>
+</main>
 
-  <script>
-    (function(){
-      const p = new URLSearchParams(location.search);
-      const title = p.get('title') || 'Document';
-      const pdf = p.get('pdf') || '';
-      const back = p.get('back') || (location.pathname.includes('/reports/') ? '../reports.html' : '../journal.html');
+<!-- PDF.js (CDN) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" integrity="sha512-A2x0o4eDg6j0n3H1Xn1N2G+Yk6oW2cJb8Q0oB27tN5YVnH0x9yG8s2c0Jx0b8zW9FObxxZ2f1k1+z9hQ2r2F5w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+(function () {
+  // ---- Query params ----
+  const p = new URLSearchParams(location.search);
+  const pdfUrl = p.get('pdf') || '';
+  const title = p.get('title') || 'Document';
+  const back = p.get('back') || (location.pathname.includes('/reports/') ? '../reports.html' : '../journal.html');
 
-      // Populate UI
-      document.getElementById('title').textContent = title;
-      document.getElementById('backLink').href = back;
-      const setLink = (id, href) => { const el = document.getElementById(id); if (el && href) el.href = href; };
-      setLink('openBtn', pdf);
-      setLink('dlBtn', pdf);
-      setLink('openAlt', pdf);
-      setLink('dlAlt', pdf);
+  // ---- Populate chrome ----
+  document.getElementById('title').textContent = title;
+  document.getElementById('backLink').href = back;
+  const setLink = (id, href) => { const el = document.getElementById(id); if (el && href) el.href = href; };
+  setLink('openBtn', pdfUrl);
+  setLink('dlBtn', pdfUrl);
 
-      // Adjust viewer height based on actual header height (handles wrapping/rotation)
-      function setHeaderHeight(){
-        const h = document.getElementById('hdr').offsetHeight || 58;
-        document.documentElement.style.setProperty('--header-h', h + 'px');
-      }
-      setHeaderHeight();
-      addEventListener('resize', setHeaderHeight);
-      addEventListener('orientationchange', setHeaderHeight);
-      setTimeout(setHeaderHeight, 150);
+  // Adjust header height var (handles wrapping / rotation)
+  function syncHeaderHeight(){
+    const h = document.getElementById('hdr').offsetHeight || 56;
+    document.documentElement.style.setProperty('--header-h', h + 'px');
+  }
+  syncHeaderHeight();
+  addEventListener('resize', syncHeaderHeight);
+  addEventListener('orientationchange', syncHeaderHeight);
+  setTimeout(syncHeaderHeight, 150);
 
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-                    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const container = document.getElementById('viewer');
+  const zoomLabel = document.getElementById('zoomLabel');
+  const controls = {
+    fitWidth: document.getElementById('fitWidth'),
+    fitPage: document.getElementById('fitPage'),
+    zoomIn: document.getElementById('zoomIn'),
+    zoomOut: document.getElementById('zoomOut'),
+  };
 
-      const root = document.getElementById('viewerRoot');
-      const fallback = document.getElementById('fallback');
+  if (!pdfUrl) {
+    container.innerHTML = '<p class="hint">No PDF specified. Add <code>?pdf=/path/to/file.pdf</code> to the URL.</p>';
+    return;
+  }
 
-      if (!pdf) {
-        fallback.hidden = false;
-        return;
-      }
+  // ---- PDF.js setup ----
+  // Match worker version to the library version above.
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-      // On iOS: prefer <embed> (scrolls correctly); elsewhere: <object>
-      if (isIOS) {
-        const el = document.createElement('embed');
-        el.className = 'pdf';
-        el.type = 'application/pdf';
-        el.src = pdf;
-        root.appendChild(el);
-      } else {
-        const el = document.createElement('object');
-        el.className = 'pdf';
-        el.type = 'application/pdf';
-        el.setAttribute('data', pdf);
-        // Built-in fallback if the browser can’t render the PDF
-        el.innerHTML = fallback.innerHTML;
-        root.appendChild(el);
-      }
-    })();
-  </script>
+  let pdfDoc = null;
+  let scale = 1;          // current zoom scale
+  let baseWidth = null;   // computed to fit width
+  let pageViewport = null;
+
+  // Create page shells first for smoother lazy rendering
+  function createPageShell(index){
+    const holder = document.createElement('div');
+    holder.style.position = 'relative';
+    holder.style.display = 'flex';
+    holder.style.justifyContent = 'center';
+
+    const ph = document.createElement('div');
+    ph.className = 'page';
+    ph.dataset.loading = 'true';
+    ph.setAttribute('aria-label', `Page ${index}`);
+    holder.appendChild(ph);
+    container.appendChild(holder);
+    return ph;
+  }
+
+  function updateZoomLabel(){ zoomLabel.textContent = Math.round(scale * 100) + '%'; }
+
+  function computeFitWidthScale(vp){
+    const pad = parseFloat(getComputedStyle(container).paddingLeft) + parseFloat(getComputedStyle(container).paddingRight);
+    const available = container.clientWidth - pad;
+    return available / vp.width;
+  }
+
+  function computeFitPageScale(vp){
+    const padV = parseFloat(getComputedStyle(container).paddingTop) + parseFloat(getComputedStyle(container).paddingBottom);
+    const availableH = container.clientWidth - (parseFloat(getComputedStyle(container).paddingLeft) + parseFloat(getComputedStyle(container).paddingRight));
+    const availableV = container.clientHeight - padV;
+    const sW = availableH / vp.width;
+    const sH = availableV / vp.height;
+    return Math.min(sW, sH);
+  }
+
+  function resizeAllCanvases(){
+    if (!pageViewport) return;
+    const targetWidth = pageViewport.width * scale;
+    document.querySelectorAll('canvas[data-page]').forEach(cv=>{
+      const ratio = (typeof devicePixelRatio === 'number' ? devicePixelRatio : 1);
+      cv.style.width = targetWidth + 'px';
+      const targetHeight = pageViewport.height * scale;
+      cv.style.height = targetHeight + 'px';
+      cv.width = Math.floor(targetWidth * ratio);
+      cv.height = Math.floor(targetHeight * ratio);
+      const ctx = cv.getContext('2d', { alpha:false });
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      // Mark page to re-render on next intersection
+      cv.dataset.needsRerender = '1';
+    });
+    updateZoomLabel();
+    // Kick the observer to re-render visible pages
+    document.querySelectorAll('.page').forEach(p=>p.__observerCheck && p.__observerCheck());
+  }
+
+  function setFitWidth(){
+    if (!pageViewport) return;
+    scale = computeFitWidthScale(pageViewport);
+    resizeAllCanvases();
+  }
+  function setFitPage(){
+    if (!pageViewport) return;
+    scale = computeFitPageScale(pageViewport);
+    resizeAllCanvases();
+  }
+
+  controls.fitWidth.addEventListener('click', setFitWidth);
+  controls.fitPage.addEventListener('click', setFitPage);
+  controls.zoomIn.addEventListener('click', ()=>{ scale = Math.min(5, scale * 1.15); resizeAllCanvases(); });
+  controls.zoomOut.addEventListener('click', ()=>{ scale = Math.max(0.2, scale / 1.15); resizeAllCanvases(); });
+
+  // Lazy renderer with IntersectionObserver
+  const io = new IntersectionObserver((entries)=>{
+    for (const entry of entries){
+      const pageEl = entry.target;
+      if (!entry.isIntersecting) return;
+      renderPage(parseInt(pageEl.dataset.pageNum,10), pageEl);
+    }
+  }, { root: container, rootMargin: '600px 0px', threshold: 0.01 });
+
+  async function renderPage(num, pageWrapper){
+    if (!pdfDoc) return;
+
+    // Avoid duplicate renders unless size changed
+    const existing = pageWrapper.querySelector('canvas[data-page]');
+    if (existing && existing.dataset.needsRerender !== '1') return;
+
+    const page = await pdfDoc.getPage(num);
+    if (!pageViewport) {
+      pageViewport = page.getViewport({ scale: 1 });
+      // Initial scale = fit width on first page load
+      scale = computeFitWidthScale(pageViewport);
+      updateZoomLabel();
+    }
+
+    const ratio = (typeof devicePixelRatio === 'number' ? devicePixelRatio : 1);
+
+    const viewport = page.getViewport({ scale: scale * ratio });
+
+    let canvas = existing;
+    if (!canvas){
+      // Remove placeholder
+      const ph = pageWrapper.querySelector('.page');
+      if (ph) ph.remove();
+
+      canvas = document.createElement('canvas');
+      canvas.className = 'page';
+      canvas.dataset.page = String(num);
+      canvas.style.background = '#fff';
+      canvas.style.border = '1px solid #d1d5db';
+      canvas.style.maxWidth = 'min(100%, 900px)';
+      canvas.style.height = 'auto';
+      pageWrapper.appendChild(canvas);
+    }
+    // Style size in CSS pixels; buffer size in device pixels
+    canvas.style.width = (pageViewport.width * scale) + 'px';
+    canvas.style.height = (pageViewport.height * scale) + 'px';
+    canvas.width = Math.floor(viewport.width);
+    canvas.height = Math.floor(viewport.height);
+
+    const ctx = canvas.getContext('2d', { alpha:false });
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+
+    canvas.dataset.needsRerender = '0';
+
+    await page.render({ canvasContext: ctx, viewport }).promise;
+  }
+
+  function addPagePlaceholders(count){
+    for (let i=1;i<=count;i++){
+      const shell = createPageShell(i);
+      shell.dataset.pageNum = String(i);
+      // Help observer re-check after zoom
+      shell.__observerCheck = ()=>{ io.unobserve(shell); io.observe(shell); };
+      io.observe(shell);
+    }
+  }
+
+  // Load & initialize
+  pdfjsLib.getDocument({ url: pdfUrl, withCredentials: false }).promise.then(doc=>{
+    pdfDoc = doc;
+    document.querySelector('.hint').textContent = `${doc.numPages} page${doc.numPages>1?'s':''}. Scroll to render.`;
+    document.getElementById('viewer').setAttribute('aria-busy','false');
+    addPagePlaceholders(doc.numPages);
+    // Render first page immediately
+    const first = document.querySelector('.page');
+    if (first) renderPage(1, first);
+  }).catch(err=>{
+    console.error(err);
+    // Fallback to native <iframe> if PDF.js fails (still scrollable on most browsers)
+    container.innerHTML = `
+      <p class="hint">Couldn’t render with PDF.js. Showing fallback.</p>
+      <iframe title="PDF" src="${pdfUrl}" style="width:100%;height:85vh;border:0;background:#222;"></iframe>
+      <p class="hint">If this still doesn’t show on your device, tap <a href="${pdfUrl}" target="_blank" rel="noopener">Open</a>.</p>
+    `;
+  });
+
+})();
+</script>
 </body>
 </html>

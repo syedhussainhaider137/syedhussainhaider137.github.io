@@ -1,214 +1,432 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Syed Hussain Haider – Portfolio</title>
-<style>
-  /* === Design system (matches index/cv) === */
-  :root {
-    --bg-color: #ffffff;
-    --text-color: #1f2937;
-    --primary-color: #6366f1;
-    --card-bg: #f9fafb;
-    --card-shadow: rgba(0,0,0,0.05);
-    --border: rgba(0,0,0,0.08);
-  }
-  body.dark {
-    --bg-color: #0f172a;
-    --text-color: #f1f5f9;
-    --primary-color: #818cf8;
-    --card-bg: #1e293b;
-    --card-shadow: rgba(255,255,255,0.08);
-    --border: rgba(255,255,255,0.12);
-  }
-
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0;
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
-    line-height: 1.6;
-  }
-  a { color: var(--primary-color); text-decoration: none; }
-  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
-    outline: 2px solid var(--primary-color); outline-offset: 2px;
-  }
-
-  .container { width: min(1100px, 92vw); margin: 0 auto; padding-inline: 1rem; }
-
-  /* Navbar */
-  .navbar {
-    position: sticky; top: 0; z-index: 50;
-    background: var(--card-bg);
-    box-shadow: 0 2px 4px var(--card-shadow);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .8rem 0; }
-
-  /* Logo + profile pic */
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: clamp(1.1rem, 1vw + 1rem, 1.25rem);
-    font-weight: 700;
-  }
-  .logo .profile-pic {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    object-fit: cover;
-    object-position: center;
-    border: 1.5px solid var(--border);           /* subtle ring that adapts to theme */
-    background: var(--bg-color);                 /* avoids dark fringing on dark mode */
-  }
-
-  .nav-links { list-style: none; display: flex; gap: 1.25rem; margin: 0; padding: 0; }
-  .nav-links a { font-weight: 500; }
-  .nav-links a.active { color: var(--primary-color); font-weight: 700; }
-  .nav-actions { display: flex; align-items: center; gap: .5rem; }
-  .toggle-theme, .menu-toggle {
-    border: 1px solid var(--border);
-    background: var(--bg-color);
-    color: var(--text-color);
-    padding: .5rem .75rem;
-    border-radius: 8px;
-    cursor: pointer;
-  }
-  .toggle-theme:hover, .menu-toggle:hover { background: var(--card-bg); }
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .nav-links.open { display: grid; grid-template-columns: 1fr; gap: .25rem; padding: .5rem 0; }
-  }
-  @media (min-width: 769px) { .menu-toggle { display: none; } }
-
-  /* Page header */
-  .hero { text-align: left; padding: clamp(1.25rem, 4vw, 3rem) 0 1rem; }
-  .hero h1 { margin: 0 0 .35rem 0; font-size: clamp(1.4rem, 2.2vw + 1rem, 2rem); }
-  .hero p { margin: 0; opacity: .9; font-size: clamp(0.95rem, 0.4vw + 0.9rem, 1.05rem); }
-
-  /* Controls (Search + Sort) */
-  .controls {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: .75rem;
-    padding-bottom: 1rem;
-  }
-  .controls input, .controls select {
-    width: auto;
-    min-width: 220px;
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    color: var(--text-color);
-    padding: 0.6rem 0.8rem;
-    border-radius: 8px;
-  }
-
-  /* Card grid */
-  .sections { display: grid; grid-template-columns: 1fr; gap: 1.25rem; padding: 1rem 0 2.5rem; }
-  @media (min-width: 600px) { .sections { grid-template-columns: repeat(2, 1fr); } }
-  @media (min-width: 960px) { .sections { grid-template-columns: repeat(3, 1fr); } }
-
-  .card {
-    background: var(--card-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.2rem;
-    box-shadow: 0 2px 4px var(--card-shadow);
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .card:hover { transform: translateY(-4px); box-shadow: 0 6px 14px var(--card-shadow); }
-  .card h3 { margin: 0 0 .4rem; color: var(--primary-color); font-size: clamp(1.05rem, .6vw + 1rem, 1.2rem); }
-  .card p { margin: 0 0 .5rem; line-height: 1.45; }
-  .card .muted { opacity: .8; font-size: .95rem; }
-  .btn { display: inline-block; margin-top: .4rem; }
-  .empty { grid-column: 1 / -1; text-align: center; opacity: .8; }
-
-  footer { text-align: center; padding: 2rem 1rem; font-size: .95rem; opacity: .9; }
-
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Syed Hussain Haider – Physics Portfolio</title>
+<meta name="description" content="Scientific essays, lab reports and the CV of Syed Hussain Haider, undergraduate physics student at King's College London.">
+<meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0e1c" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚛️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script>
-  function toggleTheme() {
-    document.body.classList.toggle('dark');
-    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-  }
-  function toggleMenu() {
-    const list = document.querySelector('.nav-links');
-    list.classList.toggle('open');
-    const expanded = list.classList.contains('open');
-    document.querySelector('.menu-toggle').setAttribute('aria-expanded', expanded);
-  }
-  document.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem('theme');
-    if (saved === 'dark') document.body.classList.add('dark');
-  });
+  /* Apply saved theme before paint to avoid a flash (falls back to system preference) */
+  (function(){
+    try{
+      var t = localStorage.getItem('theme');
+      if(!t && window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches) t = 'dark';
+      if(t === 'dark') document.documentElement.classList.add('dark');
+    }catch(e){}
+  })();
 </script>
+<style>
+  /* ============ Design tokens ============ */
+  :root{
+    --bg:#f6f7fb; --card:#ffffff; --text:#191c2e; --muted:#5b6175;
+    --border:#e4e7f0;
+    --accent:#5457d6; --accent-2:#9a4ee0;
+    --accent-soft:rgba(84,87,214,.08); --accent-border:rgba(84,87,214,.28);
+    --ring:rgba(84,87,214,.45);
+    --glow-1:rgba(84,87,214,.12); --glow-2:rgba(154,78,224,.09);
+    --grid-dot:rgba(25,28,46,.07);
+    --nav-bg:rgba(255,255,255,.78);
+    --shadow:0 1px 2px rgba(25,28,46,.04), 0 8px 24px rgba(25,28,46,.07);
+    --shadow-lg:0 14px 36px rgba(25,28,46,.14);
+  }
+  html.dark{
+    --bg:#0a0e1c; --card:#10162b; --text:#e9ecf8; --muted:#9ba4c0;
+    --border:#232c49;
+    --accent:#8b8df5; --accent-2:#c184fa;
+    --accent-soft:rgba(139,141,245,.10); --accent-border:rgba(139,141,245,.32);
+    --ring:rgba(139,141,245,.5);
+    --glow-1:rgba(139,141,245,.16); --glow-2:rgba(193,132,250,.10);
+    --grid-dot:rgba(233,236,248,.05);
+    --nav-bg:rgba(10,14,28,.72);
+    --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 30px rgba(0,0,0,.35);
+    --shadow-lg:0 18px 44px rgba(0,0,0,.5);
+  }
+
+  /* ============ Base ============ */
+  *{box-sizing:border-box}
+  html{background:var(--bg); -webkit-text-size-adjust:100%; scroll-behavior:smooth}
+  body{
+    margin:0; background:transparent; color:var(--text);
+    font:400 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    transition:color .3s;
+  }
+  h1,h2,h3{font-family:"Space Grotesk", Inter, system-ui, sans-serif; letter-spacing:-.02em}
+  a{color:var(--accent); text-decoration:none}
+  a:hover{text-decoration:none}
+  :is(a,button,input,select):focus-visible{outline:2px solid var(--ring); outline-offset:2px; border-radius:8px}
+  img{max-width:100%}
+  .container{width:min(1100px,92vw); margin-inline:auto}
+
+  /* Ambient background: soft glows + lab-notebook dot grid fading down */
+  .bg{position:fixed; inset:0; z-index:-1; pointer-events:none;
+    background:
+      radial-gradient(56rem 32rem at 82% -12%, var(--glow-1), transparent 62%),
+      radial-gradient(50rem 30rem at -12% 28%, var(--glow-2), transparent 62%);
+  }
+  .bg::after{content:""; position:absolute; inset:0;
+    background-image:radial-gradient(var(--grid-dot) 1px, transparent 1.4px);
+    background-size:26px 26px;
+    -webkit-mask-image:linear-gradient(180deg, rgba(0,0,0,.9), transparent 68%);
+            mask-image:linear-gradient(180deg, rgba(0,0,0,.9), transparent 68%);
+  }
+
+  .skip{position:absolute; left:-999px; top:0; z-index:100; background:var(--accent); color:#fff; padding:.6rem 1rem; border-radius:0 0 10px 0}
+  .skip:focus{left:0}
+
+  /* ============ Navbar ============ */
+  .navbar{position:sticky; top:0; z-index:50; background:var(--nav-bg);
+    -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{position:relative; display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.7rem 0}
+  .brand{display:flex; align-items:center; gap:.6rem; color:var(--text);
+    font-family:"Space Grotesk", Inter, sans-serif; font-weight:600; font-size:1.02rem; white-space:nowrap}
+  .brand img{width:34px; height:34px; border-radius:50%; object-fit:cover; border:1px solid var(--border); background:var(--bg)}
+  .nav-links{display:flex; gap:.25rem; list-style:none; margin:0; padding:0}
+  .nav-links a{display:block; padding:.45rem .8rem; border-radius:9px; color:var(--muted); font-weight:500; font-size:.95rem}
+  .nav-links a:hover{color:var(--text); background:var(--accent-soft)}
+  .nav-links a.active{color:var(--accent); background:var(--accent-soft); font-weight:600}
+  .nav-actions{display:flex; align-items:center; gap:.5rem}
+  .icon-btn{width:38px; height:38px; display:grid; place-items:center; border-radius:10px;
+    border:1px solid var(--border); background:transparent; color:var(--text); cursor:pointer; padding:0}
+  .icon-btn:hover{border-color:var(--accent-border); color:var(--accent)}
+  .icon-btn svg{display:block}
+  .sun{display:none}
+  html.dark .sun{display:block}
+  html.dark .moon{display:none}
+  @media (max-width:780px){
+    .nav-links{display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:230px;
+      flex-direction:column; gap:.15rem; padding:.45rem; background:var(--card);
+      border:1px solid var(--border); border-radius:14px; box-shadow:var(--shadow-lg)}
+    .nav-links.open{display:flex}
+    .nav-links a{padding:.6rem .8rem}
+  }
+  @media (min-width:781px){ .menu-btn{display:none} }
+  @media (max-width:400px){ .brand{font-size:.92rem} }
+
+  /* ============ Hero ============ */
+  .hero{position:relative; padding:clamp(3rem,8vw,5.5rem) 0 clamp(1.6rem,4vw,2.6rem)}
+  .hero .container{position:relative}
+  .eyebrow{display:inline-flex; align-items:center; gap:.5rem;
+    font-size:.74rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--accent); background:var(--accent-soft); border:1px solid var(--accent-border);
+    padding:.45rem .85rem; border-radius:999px}
+  .hero h1{font-size:clamp(2.1rem,5vw,3.4rem); line-height:1.08; margin:1.05rem 0 .85rem; max-width:14ch}
+  .lead{max-width:600px; color:var(--muted); font-size:clamp(1rem,1.4vw,1.12rem); margin:0 0 1.7rem}
+  .grad{background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    -webkit-background-clip:text; background-clip:text; color:transparent}
+  .cta{display:flex; flex-wrap:wrap; gap:.7rem}
+  .stats{display:flex; flex-wrap:wrap; gap:1.6rem 2.4rem; margin-top:2.2rem}
+  .stat b{display:block; font-family:"Space Grotesk", Inter, sans-serif; font-size:1.45rem; line-height:1.1}
+  .stat span{color:var(--muted); font-size:.85rem}
+
+  /* Signature: Bohr-style orbit diagram (CSS only) */
+  .orbits{position:absolute; right:-30px; top:50%; transform:translateY(-52%);
+    width:380px; height:380px; opacity:.55; pointer-events:none}
+  .orbit{position:absolute; border:1px dashed var(--accent-border); border-radius:50%}
+  .orbit::after{content:""; position:absolute; top:-5px; left:50%; margin-left:-5px;
+    width:10px; height:10px; border-radius:50%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    box-shadow:0 0 14px var(--accent)}
+  .o1{inset:0;   animation:spin 38s linear infinite}
+  .o2{inset:13%; animation:spin 26s linear infinite reverse}
+  .o3{inset:27%; animation:spin 17s linear infinite}
+  .core{position:absolute; left:50%; top:50%; width:14px; height:14px; margin:-7px 0 0 -7px;
+    border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    box-shadow:0 0 26px var(--accent)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @media (max-width:940px){ .orbits{display:none} }
+
+  /* ============ Buttons ============ */
+  .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.68rem 1.15rem;
+    border-radius:11px; font-weight:600; font-size:.95rem; border:1px solid var(--border);
+    color:var(--text); background:var(--card); cursor:pointer;
+    transition:transform .2s, box-shadow .2s, border-color .2s, color .2s}
+  .btn:hover{transform:translateY(-1px); border-color:var(--accent-border); color:var(--accent)}
+  .btn.primary{border:0; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    box-shadow:0 8px 20px rgba(84,87,214,.32)}
+  .btn.primary:hover{color:#fff; box-shadow:0 12px 26px rgba(84,87,214,.4)}
+
+  /* ============ Sections & cards ============ */
+  .section{margin:1.4rem 0 0}
+  .section-head{display:flex; align-items:baseline; justify-content:space-between; gap:1rem; margin:2rem 0 1.1rem}
+  .section-head h2{margin:0; font-size:clamp(1.25rem,2.4vw,1.55rem)}
+  .see-all{font-weight:600; font-size:.92rem; white-space:nowrap}
+  .see-all:hover{text-decoration:underline}
+
+  .grid{display:grid; gap:1.1rem; grid-template-columns:1fr}
+  @media (min-width:640px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  @media (min-width:980px){ .grid-3{grid-template-columns:repeat(3,1fr)} }
+
+  .card{position:relative; display:flex; flex-direction:column; gap:.55rem;
+    background:var(--card); border:1px solid var(--border); border-radius:16px;
+    padding:1.25rem 1.25rem 1.15rem; box-shadow:var(--shadow);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease}
+  .card:hover{transform:translateY(-4px); box-shadow:var(--shadow-lg); border-color:var(--accent-border)}
+  .card h3{margin:.1rem 0 0; font-size:1.12rem; line-height:1.35; color:var(--text)}
+  .card p{margin:0; color:var(--muted); font-size:.95rem; line-height:1.55}
+  .pill{align-self:flex-start; font-size:.72rem; font-weight:600; letter-spacing:.05em;
+    color:var(--accent); background:var(--accent-soft); border:1px solid var(--accent-border);
+    padding:.3rem .62rem; border-radius:999px; white-space:nowrap}
+  .icon-chip{width:42px; height:42px; border-radius:12px; display:grid; place-items:center;
+    background:var(--accent-soft); border:1px solid var(--accent-border); color:var(--accent)}
+  .card-link{margin-top:auto; padding-top:.35rem; display:inline-flex; align-items:center; gap:.4rem;
+    font-weight:600; font-size:.92rem; color:var(--accent)}
+  .card-link svg{transition:transform .2s}
+  .card:hover .card-link svg{transform:translateX(3px)}
+  /* Stretched link: the whole card is clickable */
+  .card-link::after{content:""; position:absolute; inset:0; border-radius:16px}
+  .card-link:focus-visible{outline:none}
+  .card-link:focus-visible::after{outline:2px solid var(--ring); outline-offset:2px}
+  .empty{grid-column:1/-1; text-align:center; padding:3rem 1rem; color:var(--muted);
+    border:1px dashed var(--border); border-radius:16px}
+  .empty code{font-size:.9em}
+
+  /* Scroll reveal */
+  .reveal{opacity:0; transform:translateY(12px); transition:opacity .5s ease, transform .5s ease}
+  .reveal.in{opacity:1; transform:none}
+
+  /* ============ Footer ============ */
+  footer{border-top:1px solid var(--border); margin-top:3.5rem}
+  .foot{display:flex; flex-wrap:wrap; gap:.8rem 1.5rem; align-items:center; justify-content:space-between;
+    padding:1.6rem 0; color:var(--muted); font-size:.92rem}
+  .foot .links{display:flex; gap:1.2rem}
+  .foot a{color:var(--muted); font-weight:500}
+  .foot a:hover{color:var(--accent)}
+
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important; transition:none!important; scroll-behavior:auto!important}
+    .reveal{opacity:1; transform:none}
+  }
+</style>
 </head>
 <body>
-  <nav class="navbar">
-    <div class="container nav-inner">
-     <div class="logo">
-  <img src="IMG_2932.JPG" alt="Profile picture of Syed Hussain Haider" class="profile-pic">
-  Syed Hussain Haider
-</div>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg" aria-hidden="true"></div>
 
-      <!-- Links and actions are siblings (matches projects.html) -->
-      <ul class="nav-links" id="primary-nav" aria-label="Primary Navigation">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="reports.html">Reports</a></li>
-        <li><a href="journal.html">Scientific Essays</a></li>
-        <li><a href="cv.html">CV</a></li>
-      </ul>
-
-      <div class="nav-actions">
-        <button class="toggle-theme" onclick="toggleTheme()" aria-label="Toggle theme">Theme</button>
-        <button class="menu-toggle" onclick="toggleMenu()" aria-controls="primary-nav" aria-expanded="false" aria-label="Toggle menu">Menu</button>
-      </div>
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a class="brand" href="index.html">
+      <img src="IMG_2932.JPG" alt="" width="34" height="34">
+      <span>Syed Hussain Haider</span>
+    </a>
+    <ul class="nav-links" id="navLinks" aria-label="Primary navigation">
+      <li><a class="active" href="index.html">Home</a></li>
+      <li><a href="journal.html">Scientific Essays</a></li>
+      <li><a href="reports.html">Reports</a></li>
+      <li><a href="cv.html">CV</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle dark mode">
+        <svg class="moon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="sun" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+      </button>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <header class="hero">
-    <div class="container">
-      <h1>Hello, I'm Syed Hussain Haider</h1>
-      <p>Undergraduate physics student at King's College London.</p>
+<header class="hero">
+  <div class="container">
+    <div class="orbits" aria-hidden="true">
+      <span class="orbit o1"></span>
+      <span class="orbit o2"></span>
+      <span class="orbit o3"></span>
+      <span class="core"></span>
     </div>
-  </header>
 
-  <main class="container">
-    <section class="sections">
-      <div class="card">
-        <h3>Projects</h3>
-        <p>Explore my scientific and coding projects.</p>
-        <a href="projects.html">View projects →</a>
-      </div>
-      <div class="card">
-        <h3>Reports</h3>
-        <p>Read my reports and articles on physics topics.</p>
-        <a href="reports.html">Read reports →</a>
-      </div>
-      <div class="card">
+    <span class="eyebrow">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>
+      Physics · King's College London
+    </span>
+    <h1>Syed Hussain Haider</h1>
+    <p class="lead">Undergraduate physicist exploring <span class="grad">quantum mechanics, relativity and cosmology</span> — through short scientific essays, lab reports and ongoing study, all collected here.</p>
+
+    <div class="cta">
+      <a class="btn primary" href="journal.html">Read the essays
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+      <a class="btn" href="cv.html">View my CV</a>
+    </div>
+
+    <div class="stats" id="stats" hidden>
+      <div class="stat" id="statEssays" hidden><b>–</b><span>scientific essays</span></div>
+      <div class="stat" id="statReports" hidden><b>–</b><span>lab reports</span></div>
+      <div class="stat" id="statLatest" hidden><b>–</b><span>latest essay</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="container" id="main">
+
+  <section class="section" aria-labelledby="exploreHead">
+    <div class="section-head"><h2 id="exploreHead">Explore</h2></div>
+    <div class="grid grid-3">
+
+      <article class="card reveal">
+        <span class="icon-chip" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>
+        </span>
         <h3>Scientific Essays</h3>
-        <p>Short essays and reflections in theoretical physics.</p>
-        <a href="journal.html">Read essays →</a>
-      </div>
-      <div class="card">
-        <h3>CV</h3>
-        <p>View my academic and professional experience.</p>
-        <a href="cv.html">View CV →</a>
-      </div>
-    </section>
-  </main>
+        <p>Short, focused essays on the strange corners of physics — black holes, entropy, quantum paradoxes and the structure of reality.</p>
+        <a class="card-link" href="journal.html">Browse essays
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </article>
 
-  <footer>
-    © 2025 Syed Hussain Haider. All rights reserved.
-  </footer>
+      <article class="card reveal">
+        <span class="icon-chip" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8"/></svg>
+        </span>
+        <h3>Reports</h3>
+        <p>Formal lab reports and longer write-ups — experimental methods, data analysis and results from coursework.</p>
+        <a class="card-link" href="reports.html">Read reports
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </article>
+
+      <article class="card reveal">
+        <span class="icon-chip" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6.3 16c.55-1.5 1.7-2.3 2.7-2.3s2.15.8 2.7 2.3"/><path d="M14.5 10H18M14.5 14H18"/></svg>
+        </span>
+        <h3>Curriculum Vitae</h3>
+        <p>My academic background, coursework and experience — view it online or download a copy.</p>
+        <a class="card-link" href="cv.html">View CV
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="section" id="latestSec" hidden aria-labelledby="latestHead">
+    <div class="section-head">
+      <h2 id="latestHead">Latest essays</h2>
+      <a class="see-all" href="journal.html">View all →</a>
+    </div>
+    <div class="grid grid-3" id="latestGrid"></div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>© <span id="yr">2026</span> Syed Hussain Haider</span>
+    <nav class="links" aria-label="Contact">
+      <a href="https://github.com/syedhussainhaider137" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:syedhussainhaider137@gmail.com">Email</a>
+    </nav>
+  </div>
+</footer>
+
+<script>
+  /* ---- Theme + mobile menu ---- */
+  (function(){
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    document.getElementById('themeBtn').addEventListener('click', function(){
+      var d = document.documentElement.classList.toggle('dark');
+      try{ localStorage.setItem('theme', d ? 'dark' : 'light'); }catch(e){}
+    });
+    var mb = document.getElementById('menuBtn'), nl = document.getElementById('navLinks');
+    function close(){ nl.classList.remove('open'); mb.setAttribute('aria-expanded','false'); }
+    mb.addEventListener('click', function(e){
+      e.stopPropagation();
+      var open = nl.classList.toggle('open');
+      mb.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', function(e){
+      if(nl.classList.contains('open') && !nl.contains(e.target) && !mb.contains(e.target)) close();
+    });
+    document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
+    nl.addEventListener('click', function(e){ if(e.target.closest('a')) close(); });
+  })();
+
+  /* ---- Dynamic stats + latest essays (degrades gracefully if fetch fails) ---- */
+  (function(){
+    var MONTHS = {january:0,february:1,march:2,april:3,may:4,june:5,july:6,august:7,september:8,october:9,november:10,december:11};
+    function parseDate(s){
+      if(!s) return null; s = String(s).trim();
+      var m = s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+      if(m) return new Date(+m[1], +m[2]-1, +m[3]);
+      m = s.match(/^(\d{1,2})[-\s]+([A-Za-z]+)[-\s]+(\d{4})$/);
+      if(m && MONTHS[m[2].toLowerCase()] !== undefined) return new Date(+m[3], MONTHS[m[2].toLowerCase()], +m[1]);
+      var d = new Date(s); return isNaN(d) ? null : d;
+    }
+    function fmt(d){ return d ? d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}) : ''; }
+    function esc(s){ return String(s).replace(/[&<>"']/g, function(c){
+      return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+    function loadJSON(src){
+      return fetch(src, {cache:'no-store'})
+        .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+        .then(function(j){ return Array.isArray(j) ? j : null; })
+        .catch(function(){ return null; });
+    }
+    function setStat(id, text, label){
+      var el = document.getElementById(id);
+      el.querySelector('b').textContent = text;
+      if(label) el.querySelector('span').textContent = label;
+      el.hidden = false;
+      document.getElementById('stats').hidden = false;
+    }
+    var arrow = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+
+    loadJSON('journals/journals.json').then(function(essays){
+      if(!essays || !essays.length) return;
+      var list = essays.map(function(e){
+        return { title: e.title || 'Untitled', summary: e.summary || '', pdf: e.pdf || '', d: parseDate(e.date) };
+      }).sort(function(a,b){ return (b.d ? +b.d : 0) - (a.d ? +a.d : 0); });
+
+      setStat('statEssays', list.length, list.length === 1 ? 'scientific essay' : 'scientific essays');
+      if(list[0].d) setStat('statLatest', list[0].d.toLocaleDateString(undefined,{month:'short',year:'numeric'}), 'latest essay');
+
+      var grid = document.getElementById('latestGrid');
+      list.slice(0,3).forEach(function(it, i){
+        var card = document.createElement('article');
+        card.className = 'card reveal';
+        card.style.transitionDelay = (i*60) + 'ms';
+        var href = it.pdf ? 'journals/viewer.html?pdf=' + encodeURIComponent(it.pdf) + '&title=' + encodeURIComponent(it.title) : '';
+        card.innerHTML =
+          (it.d ? '<span class="pill">' + fmt(it.d) + '</span>' : '') +
+          '<h3>' + esc(it.title) + '</h3>' +
+          (it.summary ? '<p>' + esc(it.summary) + '</p>' : '') +
+          (href ? '<a class="card-link" href="' + href + '">Read essay ' + arrow + '</a>' : '');
+        grid.appendChild(card);
+      });
+      document.getElementById('latestSec').hidden = false;
+      observeReveals();
+    });
+
+    loadJSON('reports/reports.json').then(function(reports){
+      if(!reports || !reports.length) return;
+      setStat('statReports', reports.length, reports.length === 1 ? 'lab report' : 'lab reports');
+    });
+
+    /* ---- Scroll-reveal ---- */
+    var io;
+    function observeReveals(){
+      var els = document.querySelectorAll('.reveal:not(.in)');
+      if(!('IntersectionObserver' in window)){
+        els.forEach(function(e){ e.classList.add('in'); }); return;
+      }
+      io = io || new IntersectionObserver(function(entries){
+        entries.forEach(function(en){
+          if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); }
+        });
+      }, {threshold:.06});
+      els.forEach(function(e){ io.observe(e); });
+    }
+    window.observeReveals = observeReveals;
+    observeReveals();
+  })();
+</script>
 </body>
 </html>

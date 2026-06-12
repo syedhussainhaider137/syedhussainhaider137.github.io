@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CV – Syed Hussain Haider</title>
-<meta name="description" content="Curriculum vitae of Syed Hussain Haider, undergraduate physics student at King's College London.">
-<meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0a0e1c" media="(prefers-color-scheme: dark)">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚛️</text></svg>">
+<title>CV · Syed Hussain Haider</title>
+<meta name="description" content="Curriculum vitae of Syed Hussain Haider, master's student in Quantum Fields and Fundamental Forces at Imperial College London.">
+<meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0a0d" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='none' stroke='%23f0a83c' stroke-width='8'/><circle cx='50' cy='50' r='24' fill='%23000'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -22,30 +22,32 @@
   })();
 </script>
 <style>
-  /* ============ Design tokens ============ */
+  /* ============ Design tokens: "event horizon" palette ============ */
   :root{
-    --bg:#f6f7fb; --card:#ffffff; --text:#191c2e; --muted:#5b6175;
-    --border:#e4e7f0;
-    --accent:#5457d6; --accent-2:#9a4ee0;
-    --accent-soft:rgba(84,87,214,.08); --accent-border:rgba(84,87,214,.28);
-    --ring:rgba(84,87,214,.45);
-    --glow-1:rgba(84,87,214,.12); --glow-2:rgba(154,78,224,.09);
-    --grid-dot:rgba(25,28,46,.07);
-    --nav-bg:rgba(255,255,255,.78);
-    --pdf-bg:#3a3f52;
-    --shadow:0 1px 2px rgba(25,28,46,.04), 0 8px 24px rgba(25,28,46,.07);
-    --shadow-lg:0 14px 36px rgba(25,28,46,.14);
+    --bg:#faf8f4; --card:#ffffff; --text:#1c1915; --muted:#6e675c;
+    --border:#e8e2d6;
+    --accent:#a36210; --accent-2:#c54e16;
+    --accent-soft:rgba(163,98,16,.08); --accent-border:rgba(163,98,16,.30);
+    --ring:rgba(163,98,16,.45);
+    --glow-1:rgba(222,150,45,.13); --glow-2:rgba(197,78,22,.08);
+    --grid-dot:rgba(28,25,21,.07);
+    --nav-bg:rgba(250,248,244,.78);
+    --btn-grad:linear-gradient(135deg,#f0a83c,#e0601f);
+    --btn-grad-text:#1d1107;
+    --pdf-bg:#38332c;
+    --shadow:0 1px 2px rgba(28,25,21,.04), 0 8px 24px rgba(28,25,21,.07);
+    --shadow-lg:0 14px 36px rgba(28,25,21,.14);
   }
   html.dark{
-    --bg:#0a0e1c; --card:#10162b; --text:#e9ecf8; --muted:#9ba4c0;
-    --border:#232c49;
-    --accent:#8b8df5; --accent-2:#c184fa;
-    --accent-soft:rgba(139,141,245,.10); --accent-border:rgba(139,141,245,.32);
-    --ring:rgba(139,141,245,.5);
-    --glow-1:rgba(139,141,245,.16); --glow-2:rgba(193,132,250,.10);
-    --grid-dot:rgba(233,236,248,.05);
-    --nav-bg:rgba(10,14,28,.72);
-    --pdf-bg:#070a14;
+    --bg:#0a0a0d; --card:#131318; --text:#ece9e2; --muted:#a09a8e;
+    --border:#27262d;
+    --accent:#f0a83c; --accent-2:#ff8a4a;
+    --accent-soft:rgba(240,168,60,.10); --accent-border:rgba(240,168,60,.32);
+    --ring:rgba(240,168,60,.5);
+    --glow-1:rgba(240,168,60,.09); --glow-2:rgba(255,120,60,.06);
+    --grid-dot:rgba(236,233,226,.05);
+    --nav-bg:rgba(10,10,13,.72);
+    --pdf-bg:#070707;
     --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 30px rgba(0,0,0,.35);
     --shadow-lg:0 18px 44px rgba(0,0,0,.5);
   }
@@ -98,9 +100,12 @@
     border:1px solid var(--border); background:transparent; color:var(--text); cursor:pointer; padding:0}
   .icon-btn:hover{border-color:var(--accent-border); color:var(--accent)}
   .icon-btn svg{display:block}
-  .sun{display:none}
-  html.dark .sun{display:block}
-  html.dark .moon{display:none}
+  /* Theme toggle: exactly one icon at a time. Both icons share grid cell 1/1,
+     so even if a stale stylesheet loads they overlap instead of stacking. */
+  .icon-btn .moon, .icon-btn .sun{grid-area:1/1}
+  .icon-btn .sun{display:none}
+  html.dark .icon-btn .sun{display:block}
+  html.dark .icon-btn .moon{display:none}
   @media (max-width:780px){
     .nav-links{display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:230px;
       flex-direction:column; gap:.15rem; padding:.45rem; background:var(--card);
@@ -135,8 +140,8 @@
     border:1px solid var(--border); background:transparent; color:var(--text);
     transition:border-color .2s, background .2s, transform .15s}
   .btn:hover{border-color:var(--accent-border); color:var(--accent)}
-  .btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
-  .btn.primary:hover{background:var(--accent-2); border-color:var(--accent-2); color:#fff; transform:translateY(-1px)}
+  .btn.primary{background:var(--btn-grad); border:0; color:var(--btn-grad-text)}
+  .btn.primary:hover{color:var(--btn-grad-text); transform:translateY(-1px)}
   .pdf-frame{display:block; width:100%; height:min(82vh,1100px); border:0; background:var(--pdf-bg)}
   .pdf-fallback{display:grid; place-items:center; text-align:center; height:100%; padding:2rem; color:var(--muted)}
   .pdf-fallback p{max-width:420px; margin:0 0 1rem}
@@ -196,7 +201,7 @@
   <div class="container">
     <span class="eyebrow">Document · Academic record</span>
     <h1>Curriculum Vitae</h1>
-    <p>My education, research experience and skills — viewable below or available as a PDF download.</p>
+    <p>My education, research experience and skills, viewable below or available as a PDF download.</p>
   </div>
 </header>
 
@@ -221,7 +226,7 @@
     <object data="CV_Syed_Hussain_Haider-15.pdf#view=FitH" type="application/pdf" class="pdf-frame" aria-label="Embedded CV PDF">
       <div class="pdf-fallback">
         <div>
-          <p>Your browser can’t display embedded PDFs here — no problem, you can still read it directly.</p>
+          <p>Your browser can’t display embedded PDFs here. No problem, you can still read it directly.</p>
           <a class="btn primary" href="CV_Syed_Hussain_Haider-15.pdf" target="_blank" rel="noopener">Open the CV</a>
         </div>
       </div>
@@ -235,6 +240,7 @@
     <span>© <span id="yr">2026</span> Syed Hussain Haider</span>
     <nav class="links" aria-label="Contact">
       <a href="https://github.com/syedhussainhaider137" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/syedhussainhaider137/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:syedhussainhaider137@gmail.com">Email</a>
     </nav>
   </div>

@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Syed Hussain Haider – Physics Portfolio</title>
-<meta name="description" content="Scientific essays, lab reports and the CV of Syed Hussain Haider, undergraduate physics student at King's College London.">
-<meta name="theme-color" content="#f6f7fb" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0a0e1c" media="(prefers-color-scheme: dark)">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚛️</text></svg>">
+<title>Syed Hussain Haider · Physics Portfolio</title>
+<meta name="description" content="Scientific essays, reports and the CV of Syed Hussain Haider, master's student in Quantum Fields and Fundamental Forces at Imperial College London.">
+<meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0a0a0d" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='none' stroke='%23f0a83c' stroke-width='8'/><circle cx='50' cy='50' r='24' fill='%23000'/></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -22,28 +22,30 @@
   })();
 </script>
 <style>
-  /* ============ Design tokens ============ */
+  /* ============ Design tokens: "event horizon" palette ============ */
   :root{
-    --bg:#f6f7fb; --card:#ffffff; --text:#191c2e; --muted:#5b6175;
-    --border:#e4e7f0;
-    --accent:#5457d6; --accent-2:#9a4ee0;
-    --accent-soft:rgba(84,87,214,.08); --accent-border:rgba(84,87,214,.28);
-    --ring:rgba(84,87,214,.45);
-    --glow-1:rgba(84,87,214,.12); --glow-2:rgba(154,78,224,.09);
-    --grid-dot:rgba(25,28,46,.07);
-    --nav-bg:rgba(255,255,255,.78);
-    --shadow:0 1px 2px rgba(25,28,46,.04), 0 8px 24px rgba(25,28,46,.07);
-    --shadow-lg:0 14px 36px rgba(25,28,46,.14);
+    --bg:#faf8f4; --card:#ffffff; --text:#1c1915; --muted:#6e675c;
+    --border:#e8e2d6;
+    --accent:#a36210; --accent-2:#c54e16;
+    --accent-soft:rgba(163,98,16,.08); --accent-border:rgba(163,98,16,.30);
+    --ring:rgba(163,98,16,.45);
+    --glow-1:rgba(222,150,45,.13); --glow-2:rgba(197,78,22,.08);
+    --grid-dot:rgba(28,25,21,.07);
+    --nav-bg:rgba(250,248,244,.78);
+    --btn-grad:linear-gradient(135deg,#f0a83c,#e0601f);
+    --btn-grad-text:#1d1107;
+    --shadow:0 1px 2px rgba(28,25,21,.04), 0 8px 24px rgba(28,25,21,.07);
+    --shadow-lg:0 14px 36px rgba(28,25,21,.14);
   }
   html.dark{
-    --bg:#0a0e1c; --card:#10162b; --text:#e9ecf8; --muted:#9ba4c0;
-    --border:#232c49;
-    --accent:#8b8df5; --accent-2:#c184fa;
-    --accent-soft:rgba(139,141,245,.10); --accent-border:rgba(139,141,245,.32);
-    --ring:rgba(139,141,245,.5);
-    --glow-1:rgba(139,141,245,.16); --glow-2:rgba(193,132,250,.10);
-    --grid-dot:rgba(233,236,248,.05);
-    --nav-bg:rgba(10,14,28,.72);
+    --bg:#0a0a0d; --card:#131318; --text:#ece9e2; --muted:#a09a8e;
+    --border:#27262d;
+    --accent:#f0a83c; --accent-2:#ff8a4a;
+    --accent-soft:rgba(240,168,60,.10); --accent-border:rgba(240,168,60,.32);
+    --ring:rgba(240,168,60,.5);
+    --glow-1:rgba(240,168,60,.09); --glow-2:rgba(255,120,60,.06);
+    --grid-dot:rgba(236,233,226,.05);
+    --nav-bg:rgba(10,10,13,.72);
     --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 30px rgba(0,0,0,.35);
     --shadow-lg:0 18px 44px rgba(0,0,0,.5);
   }
@@ -64,7 +66,7 @@
   img{max-width:100%}
   .container{width:min(1100px,92vw); margin-inline:auto}
 
-  /* Ambient background: soft glows + lab-notebook dot grid fading down */
+  /* Ambient background: soft warm glows + dot grid fading down */
   .bg{position:fixed; inset:0; z-index:-1; pointer-events:none;
     background:
       radial-gradient(56rem 32rem at 82% -12%, var(--glow-1), transparent 62%),
@@ -98,9 +100,12 @@
     border:1px solid var(--border); background:transparent; color:var(--text); cursor:pointer; padding:0}
   .icon-btn:hover{border-color:var(--accent-border); color:var(--accent)}
   .icon-btn svg{display:block}
-  .sun{display:none}
-  html.dark .sun{display:block}
-  html.dark .moon{display:none}
+  /* Theme toggle: exactly one icon at a time. Both icons share grid cell 1/1,
+     so even if a stale stylesheet loads they overlap instead of stacking. */
+  .icon-btn .moon, .icon-btn .sun{grid-area:1/1}
+  .icon-btn .sun{display:none}
+  html.dark .icon-btn .sun{display:block}
+  html.dark .icon-btn .moon{display:none}
   @media (max-width:780px){
     .nav-links{display:none; position:absolute; top:calc(100% + 10px); right:0; min-width:230px;
       flex-direction:column; gap:.15rem; padding:.45rem; background:var(--card);
@@ -114,6 +119,7 @@
   /* ============ Hero ============ */
   .hero{position:relative; padding:clamp(3rem,8vw,5.5rem) 0 clamp(1.6rem,4vw,2.6rem)}
   .hero .container{position:relative}
+  .hero-copy{position:relative; z-index:1}
   .eyebrow{display:inline-flex; align-items:center; gap:.5rem;
     font-size:.74rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
     color:var(--accent); background:var(--accent-soft); border:1px solid var(--accent-border);
@@ -127,22 +133,14 @@
   .stat b{display:block; font-family:"Space Grotesk", Inter, sans-serif; font-size:1.45rem; line-height:1.1}
   .stat span{color:var(--muted); font-size:.85rem}
 
-  /* Signature: Bohr-style orbit diagram (CSS only) */
-  .orbits{position:absolute; right:-30px; top:50%; transform:translateY(-52%);
-    width:380px; height:380px; opacity:.55; pointer-events:none}
-  .orbit{position:absolute; border:1px dashed var(--accent-border); border-radius:50%}
-  .orbit::after{content:""; position:absolute; top:-5px; left:50%; margin-left:-5px;
-    width:10px; height:10px; border-radius:50%;
-    background:linear-gradient(135deg,var(--accent),var(--accent-2));
-    box-shadow:0 0 14px var(--accent)}
-  .o1{inset:0;   animation:spin 38s linear infinite}
-  .o2{inset:13%; animation:spin 26s linear infinite reverse}
-  .o3{inset:27%; animation:spin 17s linear infinite}
-  .core{position:absolute; left:50%; top:50%; width:14px; height:14px; margin:-7px 0 0 -7px;
-    border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent-2));
-    box-shadow:0 0 26px var(--accent)}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  @media (max-width:940px){ .orbits{display:none} }
+  /* Signature: black hole with lensed accretion disk (canvas) */
+  .bh-wrap{position:absolute; right:-30px; top:50%; width:500px; height:500px;
+    transform:translateY(-50%) rotate(-8deg); pointer-events:none}
+  #bh{width:100%; height:100%; display:block}
+  @media (max-width:940px){
+    .bh-wrap{right:50%; transform:translate(50%,-50%) rotate(-8deg);
+      width:min(420px,100vw); height:min(420px,100vw); opacity:.35}
+  }
 
   /* ============ Buttons ============ */
   .btn{display:inline-flex; align-items:center; gap:.5rem; padding:.68rem 1.15rem;
@@ -150,9 +148,9 @@
     color:var(--text); background:var(--card); cursor:pointer;
     transition:transform .2s, box-shadow .2s, border-color .2s, color .2s}
   .btn:hover{transform:translateY(-1px); border-color:var(--accent-border); color:var(--accent)}
-  .btn.primary{border:0; color:#fff; background:linear-gradient(135deg,var(--accent),var(--accent-2));
-    box-shadow:0 8px 20px rgba(84,87,214,.32)}
-  .btn.primary:hover{color:#fff; box-shadow:0 12px 26px rgba(84,87,214,.4)}
+  .btn.primary{border:0; color:var(--btn-grad-text); background:var(--btn-grad);
+    box-shadow:0 8px 20px rgba(224,96,31,.30)}
+  .btn.primary:hover{color:var(--btn-grad-text); box-shadow:0 12px 26px rgba(224,96,31,.38)}
 
   /* ============ Sections & cards ============ */
   .section{margin:1.4rem 0 0}
@@ -237,31 +235,28 @@
 
 <header class="hero">
   <div class="container">
-    <div class="orbits" aria-hidden="true">
-      <span class="orbit o1"></span>
-      <span class="orbit o2"></span>
-      <span class="orbit o3"></span>
-      <span class="core"></span>
-    </div>
+    <div class="bh-wrap" aria-hidden="true"><canvas id="bh"></canvas></div>
 
-    <span class="eyebrow">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>
-      Physics · King's College London
-    </span>
-    <h1>Syed Hussain Haider</h1>
-    <p class="lead">Undergraduate physicist exploring <span class="grad">quantum mechanics, relativity and cosmology</span> — through short scientific essays, lab reports and ongoing study, all collected here.</p>
+    <div class="hero-copy">
+      <span class="eyebrow">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="3.6"/></svg>
+        Theoretical Physics · Imperial
+      </span>
+      <h1>Syed Hussain Haider</h1>
+      <p class="lead">Master's student in <span class="grad">Quantum Fields and Fundamental Forces</span> at Imperial College London, exploring quantum mechanics, relativity and cosmology through scientific essays, reports and ongoing study.</p>
 
-    <div class="cta">
-      <a class="btn primary" href="journal.html">Read the essays
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
-      <a class="btn" href="cv.html">View my CV</a>
-    </div>
+      <div class="cta">
+        <a class="btn primary" href="journal.html">Read the essays
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn" href="cv.html">View my CV</a>
+      </div>
 
-    <div class="stats" id="stats" hidden>
-      <div class="stat" id="statEssays" hidden><b>–</b><span>scientific essays</span></div>
-      <div class="stat" id="statReports" hidden><b>–</b><span>lab reports</span></div>
-      <div class="stat" id="statLatest" hidden><b>–</b><span>latest essay</span></div>
+      <div class="stats" id="stats" hidden>
+        <div class="stat" id="statEssays" hidden><b>–</b><span>scientific essays</span></div>
+        <div class="stat" id="statReports" hidden><b>–</b><span>reports</span></div>
+        <div class="stat" id="statLatest" hidden><b>–</b><span>latest essay</span></div>
+      </div>
     </div>
   </div>
 </header>
@@ -277,7 +272,7 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="1.6" fill="currentColor" stroke="none"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>
         </span>
         <h3>Scientific Essays</h3>
-        <p>Short, focused essays on the strange corners of physics — black holes, entropy, quantum paradoxes and the structure of reality.</p>
+        <p>Short, focused essays on the strange corners of physics: black holes, entropy, quantum paradoxes and the structure of reality.</p>
         <a class="card-link" href="journal.html">Browse essays
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
@@ -288,7 +283,7 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8M16 17H8"/></svg>
         </span>
         <h3>Reports</h3>
-        <p>Formal lab reports and longer write-ups — experimental methods, data analysis and results from coursework.</p>
+        <p>Formal write-ups from my physics degree, from lab experiments to my third-year project on dark matter.</p>
         <a class="card-link" href="reports.html">Read reports
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
@@ -299,7 +294,7 @@
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M6.3 16c.55-1.5 1.7-2.3 2.7-2.3s2.15.8 2.7 2.3"/><path d="M14.5 10H18M14.5 14H18"/></svg>
         </span>
         <h3>Curriculum Vitae</h3>
-        <p>My academic background, coursework and experience — view it online or download a copy.</p>
+        <p>My academic background, coursework and experience. View it online or download a copy.</p>
         <a class="card-link" href="cv.html">View CV
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>
@@ -323,6 +318,7 @@
     <span>© <span id="yr">2026</span> Syed Hussain Haider</span>
     <nav class="links" aria-label="Contact">
       <a href="https://github.com/syedhussainhaider137" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/syedhussainhaider137/" target="_blank" rel="noopener">LinkedIn</a>
       <a href="mailto:syedhussainhaider137@gmail.com">Email</a>
     </nav>
   </div>
@@ -348,6 +344,139 @@
     });
     document.addEventListener('keydown', function(e){ if(e.key === 'Escape') close(); });
     nl.addEventListener('click', function(e){ if(e.target.closest('a')) close(); });
+  })();
+
+  /* ---- Black hole hero: lensed accretion disk on canvas ---- */
+  (function(){
+    var cv = document.getElementById('bh');
+    if(!cv || !cv.getContext) return;
+    var ctx = cv.getContext('2d');
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var DPR = Math.min(window.devicePixelRatio || 1, 2);
+    var TAU = Math.PI * 2;
+    var W, H, CX, CY, R;
+
+    function size(){
+      W = cv.clientWidth || 1; H = cv.clientHeight || 1;
+      cv.width = W * DPR; cv.height = H * DPR;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      CX = W / 2; CY = H / 2;
+      R = Math.min(W, H) * 0.155;            /* event horizon radius */
+    }
+    size();
+    window.addEventListener('resize', function(){ size(); if(reduce) frame(now()); });
+
+    var TILT = 0.32;                          /* disk inclination, near edge-on */
+    var disk = [], stars = [], i;
+    for(i = 0; i < 340; i++){
+      var rr = 1.45 + Math.pow(Math.random(), 2) * 1.55;   /* orbit radius in units of R, dense inner edge */
+      disk.push({ r: rr, a: Math.random() * TAU,
+                  w: 0.55 / Math.pow(rr, 1.5),             /* Keplerian: inner orbits faster */
+                  s: 0.5 + Math.random() * 1.2 });
+    }
+    for(i = 0; i < 130; i++){
+      stars.push({ d: 0.22 + Math.random() * 0.65, a: Math.random() * TAU,
+                   tw: Math.random() * TAU, s: 0.4 + Math.random() * 1.1 });
+    }
+
+    function now(){ return (window.performance && performance.now) ? performance.now() : Date.now(); }
+    var last = now();
+
+    function drawDisk(list, dark){
+      for(var k = 0; k < list.length; k++){
+        var d = list[k];
+        var hue = 18 + 30 * d[2];                      /* outer ember orange, inner hot gold */
+        var lit = (dark ? 46 : 40) + 34 * d[2];
+        ctx.fillStyle = 'hsla(' + hue + ',88%,' + lit + '%,' + (0.35 + 0.6 * d[3]).toFixed(3) + ')';
+        ctx.beginPath();
+        ctx.arc(d[0], d[1], d[4] * (0.9 + d[2]), 0, TAU);
+        ctx.fill();
+      }
+    }
+
+    function frame(t){
+      var dt = Math.min((t - last) / 16.7, 3); last = t;
+      var dark = document.documentElement.classList.contains('dark');
+      ctx.clearRect(0, 0, W, H);
+
+      /* warm halo around the hole */
+      var halo = ctx.createRadialGradient(CX, CY, R, CX, CY, R * 3.4);
+      halo.addColorStop(0, 'rgba(255,150,60,' + (dark ? '.10' : '.08') + ')');
+      halo.addColorStop(1, 'rgba(255,150,60,0)');
+      ctx.fillStyle = halo; ctx.fillRect(0, 0, W, H);
+
+      /* star field, slowly spiralling inward direction of rotation */
+      var maxd = Math.sqrt(CX * CX + CY * CY);
+      for(var k = 0; k < stars.length; k++){
+        var st = stars[k];
+        st.a += 0.0006 * dt / st.d;
+        var sx = CX + Math.cos(st.a) * st.d * maxd;
+        var sy = CY + Math.sin(st.a) * st.d * maxd * 0.85;
+        if(sx < 0 || sx > W || sy < 0 || sy > H) continue;
+        var tw = 0.55 + 0.45 * Math.sin(st.tw + t * 0.0013);
+        ctx.fillStyle = dark
+          ? 'rgba(235,230,220,' + (0.55 * tw).toFixed(3) + ')'
+          : 'rgba(95,85,68,' + (0.32 * tw).toFixed(3) + ')';
+        ctx.fillRect(sx, sy, st.s, st.s);
+      }
+
+      /* accretion disk: near side passes in front, far side is lensed over the top */
+      var nearP = [], farP = [], p, c, s, x, y, heat, glow;
+      for(k = 0; k < disk.length; k++){
+        p = disk[k];
+        p.a += p.w * 0.03 * dt;
+        c = Math.cos(p.a); s = Math.sin(p.a);
+        x = CX + c * p.r * R;
+        heat = 1.5 / p.r;                              /* 1 at inner edge, fades outward */
+        glow = 0.55 + 0.45 * c;                        /* Doppler beaming: approaching side brighter */
+        if(s > 0){
+          y = CY + s * p.r * R * TILT;
+          nearP.push([x, y, heat, glow, p.s]);
+        }else{
+          var lens = 1 + 2.2 * Math.pow(1 / p.r, 1.6); /* gravitational lensing lifts the far side */
+          y = CY + s * p.r * R * TILT * lens;
+          farP.push([x, y, heat, glow * 0.8, p.s]);
+        }
+      }
+
+      /* soft continuous bands tie the particles into a disk: lensed crown behind */
+      ctx.lineWidth = R * 0.16;
+      ctx.strokeStyle = 'hsla(35,90%,' + (dark ? 60 : 50) + '%,.09)';
+      ctx.beginPath();
+      ctx.ellipse(CX, CY, R * 1.85, R * 1.05, 0, Math.PI, TAU);
+      ctx.stroke();
+
+      drawDisk(farP, dark);
+
+      /* photon ring */
+      ctx.beginPath();
+      ctx.arc(CX, CY, R * 1.07, 0, TAU);
+      ctx.strokeStyle = dark ? 'rgba(255,225,180,.95)' : 'rgba(255,200,130,.95)';
+      ctx.lineWidth = 1.4;
+      ctx.shadowColor = 'rgba(255,160,70,.95)';
+      ctx.shadowBlur = 16;
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      /* event horizon */
+      ctx.beginPath();
+      ctx.arc(CX, CY, R, 0, TAU);
+      ctx.fillStyle = dark ? '#000' : '#0d0b09';
+      ctx.fill();
+
+      /* ...and the bright front rim passing in front of the horizon */
+      ctx.lineWidth = R * 0.18;
+      ctx.strokeStyle = 'hsla(35,90%,' + (dark ? 62 : 52) + '%,.12)';
+      ctx.beginPath();
+      ctx.ellipse(CX, CY, R * 1.9, R * 1.9 * TILT, 0, 0, Math.PI);
+      ctx.stroke();
+
+      drawDisk(nearP, dark);
+
+      if(!reduce) requestAnimationFrame(frame);
+    }
+
+    if(reduce){ frame(now() + 17); } else { requestAnimationFrame(frame); }
   })();
 
   /* ---- Dynamic stats + latest essays (degrades gracefully if fetch fails) ---- */
@@ -407,7 +536,7 @@
 
     loadJSON('reports/reports.json').then(function(reports){
       if(!reports || !reports.length) return;
-      setStat('statReports', reports.length, reports.length === 1 ? 'lab report' : 'lab reports');
+      setStat('statReports', reports.length, reports.length === 1 ? 'report' : 'reports');
     });
 
     /* ---- Scroll-reveal ---- */

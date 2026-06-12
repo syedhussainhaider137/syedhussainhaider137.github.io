@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Opening essay…</title>
 <meta name="robots" content="noindex">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>⚛️</text></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='none' stroke='%23f0a83c' stroke-width='8'/><circle cx='50' cy='50' r='24' fill='%23000'/></svg>">
 <script>
   (function(){
     try{
@@ -17,19 +17,21 @@
 </script>
 <style>
   :root{
-    --bg:#f6f7fb; --card:#ffffff; --text:#191c2e; --muted:#5b6175;
-    --border:#e4e7f0; --accent:#5457d6; --accent-2:#9a4ee0;
-    --accent-soft:rgba(84,87,214,.08); --accent-border:rgba(84,87,214,.28);
-    --ring:rgba(84,87,214,.45);
-    --glow-1:rgba(84,87,214,.12); --glow-2:rgba(154,78,224,.09);
-    --shadow:0 1px 2px rgba(25,28,46,.04), 0 8px 24px rgba(25,28,46,.07);
+    --bg:#faf8f4; --card:#ffffff; --text:#1c1915; --muted:#6e675c;
+    --border:#e8e2d6; --accent:#a36210; --accent-2:#c54e16;
+    --accent-soft:rgba(163,98,16,.08); --accent-border:rgba(163,98,16,.30);
+    --ring:rgba(163,98,16,.45);
+    --glow-1:rgba(222,150,45,.13); --glow-2:rgba(197,78,22,.08);
+    --btn-grad:linear-gradient(135deg,#f0a83c,#e0601f);
+    --btn-grad-text:#1d1107;
+    --shadow:0 1px 2px rgba(28,25,21,.04), 0 8px 24px rgba(28,25,21,.07);
   }
   html.dark{
-    --bg:#0a0e1c; --card:#10162b; --text:#e9ecf8; --muted:#9ba4c0;
-    --border:#232c49; --accent:#8b8df5; --accent-2:#c184fa;
-    --accent-soft:rgba(139,141,245,.10); --accent-border:rgba(139,141,245,.32);
-    --ring:rgba(139,141,245,.5);
-    --glow-1:rgba(139,141,245,.16); --glow-2:rgba(193,132,250,.10);
+    --bg:#0a0a0d; --card:#131318; --text:#ece9e2; --muted:#a09a8e;
+    --border:#27262d; --accent:#f0a83c; --accent-2:#ff8a4a;
+    --accent-soft:rgba(240,168,60,.10); --accent-border:rgba(240,168,60,.32);
+    --ring:rgba(240,168,60,.5);
+    --glow-1:rgba(240,168,60,.09); --glow-2:rgba(255,120,60,.06);
     --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 30px rgba(0,0,0,.35);
   }
   *{box-sizing:border-box}
@@ -55,8 +57,8 @@
     font-weight:600; font-size:.9rem; text-decoration:none;
     border:1px solid var(--border); color:var(--text); transition:border-color .2s, color .2s}
   a.btn:hover{border-color:var(--accent-border); color:var(--accent)}
-  a.btn.primary{background:var(--accent); border-color:var(--accent); color:#fff}
-  a.btn.primary:hover{background:var(--accent-2); border-color:var(--accent-2); color:#fff}
+  a.btn.primary{background:var(--btn-grad); border:0; color:var(--btn-grad-text)}
+  a.btn.primary:hover{color:var(--btn-grad-text); filter:brightness(1.05)}
   a.back{display:inline-block; margin-top:1.1rem; color:var(--muted); font-size:.88rem;
     font-weight:500; text-decoration:none}
   a.back:hover{color:var(--accent)}
@@ -90,7 +92,7 @@
   var humanTitle = params.get('title') || 'Essay';
   var pdf = (params.get('pdf') || '').trim().replace(/^\.\//, '');
 
-  document.title = humanTitle + ' – Syed Hussain Haider';
+  document.title = humanTitle + ' · Syed Hussain Haider';
 
   if (!pdf) { showUI('No PDF specified', null, 'This link is missing its document. Head back to the essay list.'); return; }
 
@@ -106,7 +108,7 @@
 
   showUI(humanTitle, resolved.href, 'Opening the PDF… if nothing happens, use one of the buttons below.');
 
-  /* Navigate straight to the PDF — location.replace keeps Back-button behaviour clean */
+  /* Navigate straight to the PDF; location.replace keeps Back-button behaviour clean */
   try { location.replace(resolved.href); } catch (e) {}
 
   function showUI(titleText, href, msgText) {

@@ -311,7 +311,8 @@
         card.style.transitionDelay = Math.min(i, 8) * 45 + 'ms';
         var href = it.pdf ? VIEWER + '?pdf=' + encodeURIComponent(it.pdf) + '&title=' + encodeURIComponent(it.title) : '';
         var pillText = it.kind ? (it.d ? esc(it.kind) + ' · ' + fmt(it.d) : esc(it.kind)) : fmt(it.d);
-        var linkLabel = it.kind === 'Presentation' ? 'View slides' : 'Read report';
+        var labels = { Presentation: 'View slides', Poster: 'View poster' };
+        var linkLabel = labels[it.kind] || 'Read report';
         card.innerHTML =
           (pillText ? '<span class="pill">' + pillText + '</span>' : '') +
           '<h3>' + esc(it.title) + '</h3>' +

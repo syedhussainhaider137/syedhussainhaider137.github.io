@@ -14,6 +14,13 @@
     "pdf": "Presentation_Why_Imaginary_Numbers_Matter.pdf"
   },
   {
+    "title": "Imaginary-Time Evolution in Quantum Systems: Extracting Ground and Excited States through Wick Rotation",
+    "kind": "Poster",
+    "date": "2025-10-15",
+    "summary": "A research poster from my King's Experience Research Award (with Q. Wu and J. Millen), using a Wick rotation to recast the Schrödinger equation as a diffusion equation. An imaginary-time Crank-Nicolson solver then extracts ground and excited states for quartic, position-dependent-mass and hydrogen systems.",
+    "pdf": "Poster_Imaginary_Time_Evolution.pdf"
+  },
+  {
     "title": "Schrödinger's Equation: A Wave Equation or Heat Equation?",
     "kind": "Report",
     "date": "2025-03-15",

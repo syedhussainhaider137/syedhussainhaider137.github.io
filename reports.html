@@ -191,7 +191,7 @@
     <ul class="nav-links" id="navLinks" aria-label="Primary navigation">
       <li><a href="index.html">Home</a></li>
       <li><a href="journal.html">Scientific Essays</a></li>
-      <li><a class="active" href="reports.html">Reports</a></li>
+      <li><a class="active" href="reports.html">Research</a></li>
       <li><a href="cv.html">CV</a></li>
     </ul>
     <div class="nav-actions">
@@ -208,9 +208,9 @@
 
 <header class="hero">
   <div class="container">
-    <span class="eyebrow">Archive · Research & lab work</span>
-    <h1>Reports</h1>
-    <p>Lab reports and project write-ups from my physics degree. Open any card to read the full PDF.</p>
+    <span class="eyebrow">Archive · Reports & talks</span>
+    <h1>Research</h1>
+    <p>Reports, project write-ups and talks from my physics degree. Open any card to read the full document.</p>
   </div>
 </header>
 
@@ -218,9 +218,9 @@
   <div class="controls">
     <div class="search-wrap">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-      <input id="search" type="search" placeholder="Search reports… (press /)" aria-label="Search reports">
+      <input id="search" type="search" placeholder="Search… (press /)" aria-label="Search research">
     </div>
-    <select id="sort" aria-label="Sort reports">
+    <select id="sort" aria-label="Sort research">
       <option value="newest">Newest first</option>
       <option value="oldest">Oldest first</option>
       <option value="az">Title A-Z</option>
@@ -232,7 +232,7 @@
 <main class="container" id="main">
   <noscript><div class="empty">This page needs JavaScript to load the report list.</div></noscript>
   <section class="grid" id="grid" aria-label="Report list">
-    <div class="empty">Loading reports…</div>
+    <div class="empty">Loading…</div>
   </section>
 </main>
 
@@ -289,7 +289,7 @@
       if(m && MONTHS[m[2].toLowerCase()] !== undefined) return new Date(+m[3], MONTHS[m[2].toLowerCase()], +m[1]);
       var d = new Date(s); return isNaN(d) ? null : d;
     }
-    function fmt(d){ return d ? d.toLocaleDateString(undefined,{day:'numeric',month:'short',year:'numeric'}) : ''; }
+    function fmt(d){ return d ? d.toLocaleDateString(undefined,{month:'short',year:'numeric'}) : ''; }
     function esc(s){ return String(s).replace(/[&<>"']/g, function(c){
       return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 
@@ -298,10 +298,10 @@
     function render(list, q){
       GRID.innerHTML = '';
       COUNT.textContent = q
-        ? list.length + ' of ' + entries.length + ' reports match “' + q + '”'
-        : entries.length + (entries.length === 1 ? ' report' : ' reports');
+        ? list.length + ' of ' + entries.length + ' items match “' + q + '”'
+        : entries.length + (entries.length === 1 ? ' item' : ' items');
       if(!list.length){
-        GRID.innerHTML = '<div class="empty">No reports match “' + esc(q) + '”. Try a different search.</div>';
+        GRID.innerHTML = '<div class="empty">No items match “' + esc(q) + '”. Try a different search.</div>';
         return;
       }
       var frag = document.createDocumentFragment();
@@ -310,11 +310,13 @@
         card.className = 'card reveal';
         card.style.transitionDelay = Math.min(i, 8) * 45 + 'ms';
         var href = it.pdf ? VIEWER + '?pdf=' + encodeURIComponent(it.pdf) + '&title=' + encodeURIComponent(it.title) : '';
+        var pillText = it.kind ? (it.d ? esc(it.kind) + ' · ' + fmt(it.d) : esc(it.kind)) : fmt(it.d);
+        var linkLabel = it.kind === 'Presentation' ? 'View slides' : 'Read report';
         card.innerHTML =
-          (it.d ? '<span class="pill">' + fmt(it.d) + '</span>' : '') +
+          (pillText ? '<span class="pill">' + pillText + '</span>' : '') +
           '<h3>' + esc(it.title) + '</h3>' +
           (it.summary ? '<p>' + esc(it.summary) + '</p>' : '') +
-          (href ? '<a class="card-link" href="' + href + '">Read report ' + arrow + '</a>' : '');
+          (href ? '<a class="card-link" href="' + href + '">' + linkLabel + ' ' + arrow + '</a>' : '');
         frag.appendChild(card);
       });
       GRID.appendChild(frag);
@@ -325,7 +327,7 @@
       var q = SEARCH.value.toLowerCase().trim();
       var mode = SORT.value;
       var list = entries.filter(function(it){
-        return !q || it.title.toLowerCase().indexOf(q) !== -1 || it.summary.toLowerCase().indexOf(q) !== -1;
+        return !q || it.title.toLowerCase().indexOf(q) !== -1 || it.summary.toLowerCase().indexOf(q) !== -1 || it.kind.toLowerCase().indexOf(q) !== -1;
       });
       if(mode === 'az'){
         list.sort(function(a,b){ return a.title.localeCompare(b.title); });
@@ -340,7 +342,7 @@
       .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
       .then(function(j){
         entries = (Array.isArray(j) ? j : []).map(function(e){
-          return { title: e.title || 'Untitled', summary: e.summary || '', pdf: e.pdf || '', d: parseDate(e.date) };
+          return { title: e.title || 'Untitled', kind: e.kind || '', summary: e.summary || '', pdf: e.pdf || '', d: parseDate(e.date) };
         });
         apply();
       })

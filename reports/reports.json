@@ -1,14 +1,30 @@
 [
   {
-    "title": "Lab Report on Magnetoresistance",
-    "date": "2024-12-17",
-    "summary": "Spin-valve GMR sensor matched theoretical predictions with accurate sensitivity and linearity, while multilayer GMR showed deviations from calibration.",
-    "pdf": "Lab_Report(5).pdf"
-  },
-  {
     "title": "Dark Matter Communication in the AI Era",
+    "kind": "Report",
     "date": "2026-05-05",
     "summary": "Third-year project communicating dark matter to five different audiences, from a tabloid article to a children's comic, with a reflection on where AI helps science communication and where it falls short.",
     "pdf": "k23102240_SHHaider_3rdYearReport.pdf"
+  },
+  {
+    "title": "Why Imaginary Numbers Matter in Quantum Mechanics",
+    "kind": "Presentation",
+    "date": "2026-01-15",
+    "summary": "A talk given at the QUIRK+ 2026 Student Research Conference on why complex numbers are unavoidable in quantum theory, drawing on my research award work on Wick rotation and imaginary-time evolution.",
+    "pdf": "Presentation_Why_Imaginary_Numbers_Matter.pdf"
+  },
+  {
+    "title": "Schrödinger's Equation: A Wave Equation or Heat Equation?",
+    "kind": "Report",
+    "date": "2025-03-15",
+    "summary": "A short research report asking whether the Schrödinger equation is truly a wave equation or closer to the diffusion equation for heat, and how a rotation to imaginary time turns one into the other.",
+    "pdf": "Research_Report_Schrodinger_Wave_or_Heat.pdf"
+  },
+  {
+    "title": "Lab Report on Magnetoresistance",
+    "kind": "Report",
+    "date": "2024-12-17",
+    "summary": "Spin-valve GMR sensor matched theoretical predictions with accurate sensitivity and linearity, while multilayer GMR showed deviations from calibration.",
+    "pdf": "Lab_Report(5).pdf"
   }
 ]

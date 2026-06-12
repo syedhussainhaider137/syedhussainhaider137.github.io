@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Opening report…</title>
+<title>Opening…</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='42' fill='none' stroke='%23f0a83c' stroke-width='8'/><circle cx='50' cy='50' r='24' fill='%23000'/></svg>">
 <script>
@@ -71,34 +71,34 @@
   <div class="card">
     <h1>JavaScript required</h1>
     <p>This page opens the report PDF automatically. Please enable JavaScript, or browse the PDFs directly in the <code>reports/</code> folder.</p>
-    <a class="back" href="../reports.html">← All reports</a>
+    <a class="back" href="../reports.html">← All research</a>
   </div>
 </noscript>
 
 <div class="card" id="ui" hidden>
   <div class="spinner" id="spin" aria-hidden="true"></div>
-  <h1 id="title">Opening report…</h1>
+  <h1 id="title">Opening…</h1>
   <p id="msg">If nothing happens, use one of the buttons below.</p>
   <div class="row" id="row">
     <a id="openBtn" class="btn primary" rel="noopener">Open PDF</a>
     <a id="dlBtn" class="btn" download>Download</a>
   </div>
-  <a class="back" href="../reports.html">← All reports</a>
+  <a class="back" href="../reports.html">← All research</a>
 </div>
 
 <script>
 (function () {
   var params = new URLSearchParams(location.search);
-  var humanTitle = params.get('title') || 'Report';
+  var humanTitle = params.get('title') || 'Document';
   var pdf = (params.get('pdf') || '').trim().replace(/^\.\//, '');
 
   document.title = humanTitle + ' · Syed Hussain Haider';
 
-  if (!pdf) { showUI('No PDF specified', null, 'This link is missing its document. Head back to the report list.'); return; }
+  if (!pdf) { showUI('No PDF specified', null, 'This link is missing its document. Head back to the research list.'); return; }
 
   var resolved;
   try { resolved = new URL(pdf, location.href); }
-  catch (e) { showUI('Invalid PDF link', null, 'This link looks malformed. Head back to the report list.'); return; }
+  catch (e) { showUI('Invalid PDF link', null, 'This link looks malformed. Head back to the research list.'); return; }
 
   /* Safety: only same-origin files */
   if (resolved.origin !== location.origin) {

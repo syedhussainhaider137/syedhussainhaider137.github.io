@@ -1,5 +1,12 @@
 [
   {
+    "title": "Two Routes to Quantum Tunnelling",
+    "kind": "Poster",
+    "date": "2026-10-15",
+    "summary": "A research poster from my King's Experience Research Award (with Q. Wu and J. Millen), comparing two routes to the tunnelling splitting in a double well: numerical imaginary-time evolution and semiclassical instanton theory. Using the fully connected transverse-field Ising model, it shows that exploiting the Hamiltonian's parity symmetry with a Herring/Wronskian readout keeps the numerical method cheap in the regime where leading-order instanton theory is accurate, so the two methods' useful ranges overlap.",
+    "pdf": "Poster_Two_Routes_to_Quantum_Tunnelling.pdf"
+  },
+  {
     "title": "Dark Matter Communication in the AI Era",
     "kind": "Report",
     "date": "2026-05-05",
